@@ -5,29 +5,38 @@ package swingingWeather;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.net.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 
 /**
  * @author David Garner
  *
  */
 public class WeatherData {
-	private static String url = "https://api.openweathermap.org/data/2.5/weather";
+	private static String url = "http://api.openweathermap.org/data/2.5/weather";
 	private static final String APIKEY = "ffddac062b6064aeee4aefc5662be9b8";
 	
 	/**
 	 * @param args
 	 * @throws IOException 
 	 * @throws MalformedURLException 
+	 * @throws ParseException 
 	 */
-	public static void main(String[] args) throws MalformedURLException, IOException {
+	public static void main(String[] args) throws MalformedURLException, IOException, ParseException {
 		// TODO Auto-generated method stub
-		requestData("94040");
+		requestData("50525");
 
 	}
 	
-	public static void requestData(String zipCode) throws MalformedURLException, IOException{
+	public static void requestData(String zipCode) throws MalformedURLException, IOException, ParseException{
 		String myZipCode = zipCode.trim();
 		String myCountryCode = "us";
 		String encodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8";
@@ -47,10 +56,8 @@ public class WeatherData {
 			     URLEncoder.encode(myCountryCode, encodingType),
 			     URLEncoder.encode(APIKEY, encodingType));
 		url = url + "?" + query;
-		
-		String myUrl = "http://api.openweathermap.org/data/2.5/weather?zip=94040,us&appid=44db6a862fba0b067b1930da0d769e98";
-		
-		URLConnection myConnection = new URL(myUrl).openConnection();
+				
+		URLConnection myConnection = new URL(url).openConnection();
 		myConnection.setRequestProperty("Accept-Charset", encodingType);
 
 		InputStream response = myConnection.getInputStream();
@@ -60,9 +67,31 @@ public class WeatherData {
 		byte [] myBuffer = new byte[response.available()];
 		
 		response.read(myBuffer);
-		String outString = new String (myBuffer, "UTF-8");
 		
-		System.out.println(outString);
+		
+		String outString = new String (myBuffer, "UTF-8");
+	
+		JSONParser jParse = new JSONParser();
+		
+		JSONObject data = (JSONObject)(jParse.parse(outString));
+		
+		//Need to check it there is another JSON Array in the Array
+		JSONArray weather = (JSONArray) data.get("weather");
+		
+		
+		JSONObject data2 = (JSONObject) weather.get(0);
+		
+		
+		String weatherData = (String) data2.get("main");
+		
+		System.out.println(weatherData);
+
+		
+		
+		//System.out.println("Weather " + weather.toJSONString());
+		
+		
+		//System.out.println(outString);
 		
 		
 		
