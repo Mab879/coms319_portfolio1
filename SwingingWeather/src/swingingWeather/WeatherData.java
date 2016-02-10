@@ -11,7 +11,7 @@ public class WeatherData {
 
 	
 	public static void main(String[] args) {
-		WeatherData d = new WeatherData("49083");
+		WeatherData d = new WeatherData("50111");
 	}
 	
 	public WeatherData(String zip)
