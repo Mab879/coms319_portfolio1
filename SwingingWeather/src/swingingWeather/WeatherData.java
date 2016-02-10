@@ -17,8 +17,7 @@ public class WeatherData {
 	private ArrayList<HashMap<String, Object>> data;
 	
 	public static void main(String[] args) {
-		WeatherData d = new WeatherData("94040");
-		
+		WeatherData d = new WeatherData("50111");
 	}
 	
 	public WeatherData(String zip)

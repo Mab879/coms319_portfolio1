@@ -10,6 +10,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import java.awt.FlowLayout;
+import java.awt.ScrollPane;
 
 public class SwingWeatherMain {
 
@@ -44,7 +47,7 @@ public class SwingWeatherMain {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 562, 402);
+		frame.setBounds(100, 100, 640, 495);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -79,7 +82,7 @@ public class SwingWeatherMain {
 		currentPanel.add(currentWindUnits);
 		
 		JLabel currentHumidyLabel = new JLabel("H");
-		currentHumidyLabel.setBounds(96, 20, 70, 15);
+		currentHumidyLabel.setBounds(91, 20, 70, 15);
 		currentPanel.add(currentHumidyLabel);
 		
 		JLabel currentHumdityValue = new JLabel("42");
@@ -107,11 +110,11 @@ public class SwingWeatherMain {
 		currentPanel.add(currentObservation);
 		
 		JLabel zipCodeLabel = new JLabel("Zip Code:");
-		zipCodeLabel.setBounds(12, 341, 70, 15);
+		zipCodeLabel.setBounds(6, 447, 70, 15);
 		frame.getContentPane().add(zipCodeLabel);
 		
 		zipCodeField = new JTextField(5);
-		zipCodeField.setBounds(94, 339, 114, 19);
+		zipCodeField.setBounds(88, 445, 114, 19);
 		frame.getContentPane().add(zipCodeField);
 		zipCodeField.setColumns(5);
 		
@@ -123,18 +126,35 @@ public class SwingWeatherMain {
 			}
 		});
 		
-		btnGo.setBounds(219, 336, 70, 25);
+		btnGo.setBounds(213, 442, 70, 25);
 		frame.getContentPane().add(btnGo);
 		
 		JPanel trendsWrapper = new JPanel();
-		trendsWrapper.setBounds(237, 27, 311, 182);
+		trendsWrapper.setBounds(308, 21, 311, 182);
 		frame.getContentPane().add(trendsWrapper);
 		
 	
 		
 		JLabel lblTrends = new JLabel("Trends");
-		lblTrends.setBounds(269, 12, 70, 15);
+		lblTrends.setBounds(326, 6, 70, 15);
 		frame.getContentPane().add(lblTrends);
+		
+		JLabel lblDayFor = new JLabel("5 Day Forecast");
+		lblDayFor.setBounds(308, 215, 102, 16);
+		frame.getContentPane().add(lblDayFor);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(308, 243, 326, 224);
+		frame.getContentPane().add(panel);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		ForecastPanel[] forecasts = new ForecastPanel[1];
+		for(int i = 0; i < forecasts.length; i++) {
+			forecasts[i] = new ForecastPanel("Day " + i);
+			forecasts[i].setBounds(0,0, 110, 110);
+			forecasts[i].setVisible(true);
+			panel.add(forecasts[i]);
+		}
 	
 	}
 }
