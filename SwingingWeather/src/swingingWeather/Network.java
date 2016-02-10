@@ -5,40 +5,31 @@ package swingingWeather;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.*;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.json.simple.*;
 import org.json.simple.parser.ParseException;
+
 
 
 /**
  * @author David Garner
  *
  */
-public class WeatherData {
+public class Network {
 	private static String url = "http://api.openweathermap.org/data/2.5/weather";
 	private static final String APIKEY = "ffddac062b6064aeee4aefc5662be9b8";
 	
-	/**
-	 * @param args
-	 * @throws IOException 
-	 * @throws MalformedURLException 
-	 * @throws ParseException 
-	 */
-	public static void main(String[] args) throws MalformedURLException, IOException, ParseException {
-		// TODO Auto-generated method stub
-		requestData("50525");
 
-	}
 	
-	public static void requestData(String zipCode) throws MalformedURLException, IOException, ParseException{
+	public static Object requestData(String zipCode) throws MalformedURLException, IOException{
 		String myZipCode = zipCode.trim();
 		String myCountryCode = "us";
+		String units = "imperial";
 		String encodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8";
 		
 		if(myZipCode.length()!= 5 ){
@@ -50,53 +41,30 @@ public class WeatherData {
 			throw new IllegalArgumentException("Zip code is not a number");
 		}
 		
-		
-		String query = String.format("zip=%s,%s&appid=%s", 
+		//Encode query 
+		String query = String.format("q=zip=%s,%s&units=%s&appid=%s", 
 			     URLEncoder.encode(myZipCode, encodingType), 
 			     URLEncoder.encode(myCountryCode, encodingType),
+			     URLEncoder.encode(units, encodingType),
 			     URLEncoder.encode(APIKEY, encodingType));
-		url = url + "?" + query;
-				
-		URLConnection myConnection = new URL(url).openConnection();
+		
+		URLConnection myConnection = new URL(url + "?" + query).openConnection();
 		myConnection.setRequestProperty("Accept-Charset", encodingType);
 
-		InputStream response = myConnection.getInputStream();
+		InputStreamReader requestReader = new InputStreamReader(myConnection.getInputStream());
 		
-		System.out.println(myConnection.getContentType());
+		Object data = null;
 		
-		byte [] myBuffer = new byte[response.available()];
-		
-		response.read(myBuffer);
-		
-		
-		String outString = new String (myBuffer, "UTF-8");
-	
-		JSONParser jParse = new JSONParser();
-		
-		JSONObject data = (JSONObject)(jParse.parse(outString));
-		
-		//Need to check it there is another JSON Array in the Array
-		JSONArray weather = (JSONArray) data.get("weather");
+		try {
+			data = JSONValue.parseWithException(requestReader);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			System.out.print("Could not parse data from inputstream");
+			e.printStackTrace();
+		}
 		
 		
-		JSONObject data2 = (JSONObject) weather.get(0);
-		
-		
-		String weatherData = (String) data2.get("main");
-		
-		System.out.println(weatherData);
-
-		
-		
-		//System.out.println("Weather " + weather.toJSONString());
-		
-		
-		//System.out.println(outString);
-		
-		
-		
-		
-		
+		return data;
 	}
 	
 
