@@ -138,7 +138,7 @@ public class SwingWeatherMain {
 	
 		
 		JLabel lblTrends = new JLabel("Trends");
-		lblTrends.setBounds(326, 6, 70, 15);
+		lblTrends.setBounds(308, 6, 70, 15);
 		frame.getContentPane().add(lblTrends);
 		
 		JLabel lblDayFor = new JLabel("5 Day Forecast");
