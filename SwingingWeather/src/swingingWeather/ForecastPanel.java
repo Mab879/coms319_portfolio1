@@ -2,6 +2,12 @@ package swingingWeather;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import java.awt.GridLayout;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
 
 public class ForecastPanel extends JPanel {
 	/**
@@ -20,33 +26,44 @@ public class ForecastPanel extends JPanel {
 	private JLabel lblLowtValue;
 	
 	private JLabel lblDescription;
+	private JLabel label;
+	private JLabel label_1;
+	private JLabel label_2;
 	
 	
 	public ForecastPanel(String title) {
-		setLayout(null);
+		setBorder(new LineBorder(new Color(0, 0, 0)));
+		setBackground(Color.LIGHT_GRAY);
+		setLayout(new GridLayout(0, 1, 0, 0));
 		
 		lblDay = new JLabel(title);
-		lblDay.setBounds(39, 6, 61, 16);
+		lblDay.setFont(new Font("Lucida Grande", Font.BOLD | Font.ITALIC, 13));
 		add(lblDay);
 		
+		label = new JLabel("");
+		add(label);
+		
 		lblHigh = new JLabel("High");
-		lblHigh.setBounds(6, 34, 61, 16);
+		lblHigh.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		add(lblHigh);
 		
 		lblHighValue = new JLabel("104 ºF");
-		lblHighValue.setBounds(49, 34, 61, 16);
 		add(lblHighValue);
 		
+		label_1 = new JLabel("");
+		add(label_1);
+		
 		lblLow = new JLabel("Low");
-		lblLow.setBounds(6, 49, 61, 16);
+		lblLow.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		add(lblLow);
 		
 		lblLowtValue = new JLabel("104 ºF");
-		lblLowtValue.setBounds(49, 49, 61, 16);
 		add(lblLowtValue);
 		
+		label_2 = new JLabel("");
+		add(label_2);
+		
 		lblDescription = new JLabel("Clouds: Wind");
-		lblDescription.setBounds(6, 78, 94, 16);
 		add(lblDescription);
 
 	}

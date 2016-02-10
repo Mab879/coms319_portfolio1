@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import java.awt.FlowLayout;
 import java.awt.ScrollPane;
+import java.awt.BorderLayout;
+import java.awt.ComponentOrientation;
 
 public class SwingWeatherMain {
 
@@ -143,18 +145,21 @@ public class SwingWeatherMain {
 		lblDayFor.setBounds(308, 215, 102, 16);
 		frame.getContentPane().add(lblDayFor);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(308, 243, 326, 224);
-		frame.getContentPane().add(panel);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(308, 243, 311, 182);
+		frame.getContentPane().add(scrollPane);
 		
-		ForecastPanel[] forecasts = new ForecastPanel[1];
+		JPanel panel = new JPanel();
+		scrollPane.setViewportView(panel);
+		
+		ForecastPanel[] forecasts = new ForecastPanel[6];
 		for(int i = 0; i < forecasts.length; i++) {
 			forecasts[i] = new ForecastPanel("Day " + i);
-			forecasts[i].setBounds(0,0, 110, 110);
+			forecasts[i].setSize(110, 110);
 			forecasts[i].setVisible(true);
 			panel.add(forecasts[i]);
 		}
 	
+		
 	}
 }
