@@ -66,5 +66,10 @@ public class Network {
 		return data;
 	}
 	
+	public static Object requestData(String zip, int numDay){
+		return numDay;
+		
+	}
+	
 
 }

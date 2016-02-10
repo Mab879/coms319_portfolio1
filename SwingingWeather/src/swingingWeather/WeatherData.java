@@ -12,8 +12,9 @@ public class WeatherData {
 	private static final long serialVersionUID = 1L;
 	private String zipCode;
 	private HashMap<String,Object> rawData;
-	private HashMap<String,Object> data;
-
+	private HashMap<String,Object> currentData;
+	private HashMap<String,Object> forecastData;
+	private ArrayList<HashMap<String, Object>> data;
 	
 	public static void main(String[] args) {
 		WeatherData d = new WeatherData("94040");
@@ -22,49 +23,23 @@ public class WeatherData {
 	
 	public WeatherData(String zip)
 	{
-		super();
-		
 		this.zipCode = zip;
-		data =  new HashMap<String,Object>();
+		currentData =  new HashMap<String,Object>();
 		update();
-		
-		HashMap<String,Object> tempMap = (HashMap<String, Object>) rawData.get("main");
-				
-		data.put("currentTemp", tempMap.get("temp"));
-		data.put("pressure", tempMap.get("pressure"));
-		data.put("humidity", tempMap.get("humidity"));
-		data.put("minTemp", tempMap.get("temp_min"));
-		data.put("maxTemp", tempMap.get("temp_max"));
-		
-		tempMap = (HashMap<String, Object>) rawData.get("wind");
-		data.put("windSpeed", tempMap.get("speed"));
-		data.put("windDeg", tempMap.get("deg"));
-		
-		tempMap = (HashMap<String, Object>) rawData.get("clouds");
-		
-		data.put("cloudCover", tempMap.get("all"));
-		
-		ArrayList<Object> obj = (ArrayList<Object>)rawData.get("weather");
-		tempMap = (HashMap<String, Object>) obj.get(0);
-		
-		data.put("description", tempMap.get("description"));
-		
-		tempMap = (HashMap<String, Object>) rawData.get("sys");
-		data.put("country", tempMap.get("country"));
-		data.put("sunrise", tempMap.get("sunrise"));
-		data.put("sunset", tempMap.get("sunset"));
-		data.put("name", rawData.get("name"));
-		
-		System.out.println(this.getData());
 	}
 	
 	public HashMap<String,Object> getData(){
-		return this.data;
+		return this.currentData;
 	}
 	
+	/**
+	 * Requests Data from the OpenWeather API, then updates the current data and forecastData
+	 */
 	public void update(){
 		try {
 			 this.rawData = (HashMap)Network.requestData(zipCode);
+			 getCurrentData();
+			getForeCastData();
 		}
 		catch (MalformedURLException e) {
 			System.out.println("Url is inncorrect.");
@@ -73,6 +48,8 @@ public class WeatherData {
 			System.out.println("Could not read stream.");
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
 	public void setZip(String zip){
@@ -81,6 +58,45 @@ public class WeatherData {
 	
 	public String getZip(){
 		return zipCode;
+	}
+	
+	private void getCurrentData()
+	{
+
+		HashMap<String,Object> tempMap = (HashMap<String, Object>) rawData.get("main");
+				
+		currentData.put("currentTemp", tempMap.get("temp"));
+		currentData.put("pressure", tempMap.get("pressure"));
+		currentData.put("humidity", tempMap.get("humidity"));
+		currentData.put("minTemp", tempMap.get("temp_min"));
+		currentData.put("maxTemp", tempMap.get("temp_max"));
+		
+		tempMap = (HashMap<String, Object>) rawData.get("wind");
+		currentData.put("windSpeed", tempMap.get("speed"));
+		currentData.put("windDeg", tempMap.get("deg"));
+		
+		tempMap = (HashMap<String, Object>) rawData.get("clouds");
+		
+		currentData.put("cloudCover", tempMap.get("all"));
+		
+		ArrayList<Object> obj = (ArrayList<Object>)rawData.get("weather");
+		tempMap = (HashMap<String, Object>) obj.get(0);
+		
+		currentData.put("description", tempMap.get("description"));
+		
+		tempMap = (HashMap<String, Object>) rawData.get("sys");
+		currentData.put("country", tempMap.get("country"));
+		currentData.put("sunrise", tempMap.get("sunrise"));
+		currentData.put("sunset", tempMap.get("sunset"));
+		currentData.put("name", rawData.get("name"));
+		
+		System.out.println(this.getData());
+		
+	}
+	
+	private void getForeCastData(){
+		
+		
 	}
 	
 }
