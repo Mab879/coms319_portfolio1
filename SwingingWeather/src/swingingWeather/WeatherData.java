@@ -2,9 +2,14 @@ package swingingWeather;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class WeatherData {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String zipCode;
 	private HashMap<String,Object> rawData;
 	private HashMap<String,Object> data;
@@ -16,19 +21,14 @@ public class WeatherData {
 	
 	public WeatherData(String zip)
 	{
+		super();
+		
 		this.zipCode = zip;
 		data =  new HashMap<String,Object>();
 		update();
 		
-		System.out.println(rawData.keySet());
-		//System.out.println(rawData);
-
-		
 		HashMap<String,Object> tempMap = (HashMap<String, Object>) rawData.get("main");
-		
-		System.out.println(tempMap.keySet());
-
-		
+				
 		data.put("currentTemp", tempMap.get("temp"));
 		data.put("pressure", tempMap.get("pressure"));
 		data.put("humidity", tempMap.get("humidity"));
@@ -42,23 +42,23 @@ public class WeatherData {
 		tempMap = (HashMap<String, Object>) rawData.get("clouds");
 		
 		data.put("cloudCover", tempMap.get("all"));
-
-		//tempMap = (HashMap<String, Object>) ((HashMap<String, Object>) rawData.get(0)).get("description");
-		//data.put("description", tempMap.get("description"));
 		
-//		tempMap = (HashMap<String, Object>) rawData.get("sys");
-//		data.put("country", tempMap.get("country"));
-//		data.put("sunrise", tempMap.get("sunrise"));
-//		data.put("sunset", tempMap.get("sunset"));
-//		
-//		data.put("name", rawData.get("name"));
-
-
-		System.out.println(data);
+		ArrayList<Object> obj = (ArrayList<Object>)rawData.get("weather");
+		tempMap = (HashMap<String, Object>) obj.get(0);
 		
+		data.put("description", tempMap.get("description"));
 		
-
+		tempMap = (HashMap<String, Object>) rawData.get("sys");
+		data.put("country", tempMap.get("country"));
+		data.put("sunrise", tempMap.get("sunrise"));
+		data.put("sunset", tempMap.get("sunset"));
+		data.put("name", rawData.get("name"));
 		
+		System.out.println(this.getData());
+	}
+	
+	public HashMap<String,Object> getData(){
+		return this.data;
 	}
 	
 	public void update(){
@@ -82,6 +82,4 @@ public class WeatherData {
 		return zipCode;
 	}
 	
-	
-
 }

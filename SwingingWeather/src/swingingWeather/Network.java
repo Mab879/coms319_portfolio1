@@ -58,7 +58,6 @@ public class Network {
 		try {
 			data = JSONValue.parseWithException(requestReader);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			System.out.print("Could not parse data from inputstream");
 			e.printStackTrace();
 		}
