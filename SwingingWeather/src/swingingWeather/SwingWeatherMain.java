@@ -11,10 +11,8 @@ import javax.swing.JButton;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import java.awt.FlowLayout;
-import java.awt.ScrollPane;
-import java.awt.BorderLayout;
-import java.awt.ComponentOrientation;
+import javafx.embed.swing.JFXPanel;
+import javafx.application.Platform;
 
 public class SwingWeatherMain {
 
@@ -25,16 +23,14 @@ public class SwingWeatherMain {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingWeatherMain window = new SwingWeatherMain();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		EventQueue.invokeLater(() -> {
+            try {
+                SwingWeatherMain window = new SwingWeatherMain();
+                window.frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 	}
 
 	/**
@@ -52,6 +48,7 @@ public class SwingWeatherMain {
 		frame.setBounds(100, 100, 640, 495);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+        frame.setTitle("SwingingWeather");
 		
 		JPanel currentPanel = new JPanel();
 		currentPanel.setBounds(0, 0, 225, 61);
@@ -134,8 +131,16 @@ public class SwingWeatherMain {
 		JPanel trendsWrapper = new JPanel();
 		trendsWrapper.setBounds(308, 21, 311, 182);
 		frame.getContentPane().add(trendsWrapper);
-		
-	
+
+		JFXPanel jfxPanel = new JFXPanel();
+		trendsWrapper.add(jfxPanel);
+
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				TrendChart.initFX(jfxPanel);
+			}
+		});
 		
 		JLabel lblTrends = new JLabel("Trends");
 		lblTrends.setBounds(308, 6, 70, 15);
