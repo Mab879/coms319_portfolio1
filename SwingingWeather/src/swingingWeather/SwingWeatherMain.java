@@ -81,7 +81,7 @@ public class SwingWeatherMain {
 		currentPanel.add(currentWindUnits);
 		
 		JLabel currentHumidyLabel = new JLabel("H");
-		currentHumidyLabel.setBounds(91, 20, 70, 15);
+		currentHumidyLabel.setBounds(96, 20, 70, 15);
 		currentPanel.add(currentHumidyLabel);
 		
 		JLabel currentHumdityValue = new JLabel("42");
@@ -164,7 +164,5 @@ public class SwingWeatherMain {
 			forecasts[i].setVisible(true);
 			panel.add(forecasts[i]);
 		}
-	
-		
 	}
 }
