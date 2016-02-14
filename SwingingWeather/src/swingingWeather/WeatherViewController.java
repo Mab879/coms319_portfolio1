@@ -62,9 +62,6 @@ public class WeatherViewController {
 							String.valueOf(weatherDay.getDescription()), 
 							i
 					);
-					myWeatherWindow.addHighToChart(weatherDay.getMaxTemp());
-					myWeatherWindow.addLowToChart(weatherDay.getMinTemp());
-
 				}
 	}
 
@@ -90,6 +87,7 @@ public class WeatherViewController {
 			EventQueue.invokeLater(() -> {
 	            try {
 	            	 weatherParser = new WeatherDataParser(myZipCode);
+                     myWeatherWindow.chart.clearChart();
 	            	 bindData(weatherParser);
 	            } catch (Exception exception) {
 	            	exception.printStackTrace();
