@@ -11,8 +11,8 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-//import javafx.embed.swing.JFXPanel;
-//import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.application.Platform;
 
 public class SwingWeatherMain {
 
@@ -22,20 +22,7 @@ public class SwingWeatherMain {
 	currentHumdityValue,currentPressureValue,currentObservation;
 	private JButton btnGo;
 	private ForecastPanel[] forecasts;
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(() -> {
-            try {
-                SwingWeatherMain window = new SwingWeatherMain();
-                window.frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-	}
+	private TrendChart chart;
 
 	/**
 	 * Create the application.
@@ -86,7 +73,7 @@ public class SwingWeatherMain {
 		currentPanel.add(currentWindUnits);
 		
 		JLabel currentHumidyLabel = new JLabel("H");
-		currentHumidyLabel.setBounds(96, 20, 70, 15);
+		currentHumidyLabel.setBounds(96 , 20, 70, 15);
 		currentPanel.add(currentHumidyLabel);
 		
 		currentHumdityValue = new JLabel("42");
@@ -129,18 +116,18 @@ public class SwingWeatherMain {
 		frame.getContentPane().add(btnGo);
 		
 		JPanel trendsWrapper = new JPanel();
-		trendsWrapper.setBounds(308, 21, 311, 182);
+		trendsWrapper.setBounds(308, 21, 311, 190);
 		frame.getContentPane().add(trendsWrapper);
 
-//		JFXPanel jfxPanel = new JFXPanel();
-//		trendsWrapper.add(jfxPanel);
-//
-//		Platform.runLater(new Runnable() {
-//			@Override
-//			public void run() {
-//				TrendChart.initFX(jfxPanel);
-//			}
-//		});
+		JFXPanel jfxPanel = new JFXPanel();
+		trendsWrapper.add(jfxPanel);
+
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				chart.initFX(jfxPanel);
+			}
+		});
 		
 		JLabel lblTrends = new JLabel("Trends");
 		lblTrends.setBounds(308, 6, 70, 15);
@@ -221,6 +208,22 @@ public class SwingWeatherMain {
 	 */
 	public void setCurrentObservation(String currentObservation) {
 		this.currentObservation.setText(currentObservation);
+	}
+
+    /**
+     *
+     * @param high
+     */
+	public void addHighToChart(double high) {
+		chart.addHigh(high);
+	}
+
+    /**
+     *
+     * @param low
+     */
+	public void addLowToChart(double low) {
+		chart.addLow(low);
 	}
 
 //	/**
