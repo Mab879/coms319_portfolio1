@@ -118,7 +118,6 @@ public class WeatherDataParser {
 
 		parsedData.add(weatherData);
 		
-		
 		}
 	}
 }
