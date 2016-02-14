@@ -2,15 +2,10 @@ package swingingWeather;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import java.awt.Font;
 
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
 import javafx.embed.swing.JFXPanel;
 import javafx.application.Platform;
 
@@ -22,7 +17,7 @@ public class SwingWeatherMain {
 	currentHumdityValue,currentPressureValue,currentObservation;
 	private JButton btnGo;
 	private ForecastPanel[] forecasts;
-	private TrendChart chart;
+	private TrendChart chart = new TrendChart();
 
 	/**
 	 * Create the application.
@@ -47,9 +42,9 @@ public class SwingWeatherMain {
 		frame.getContentPane().add(currentPanel);
 		currentPanel.setLayout(null);
 		
-		currentTempValue = new JLabel("104");
+		currentTempValue = new JLabel("104", SwingConstants.RIGHT);
 		currentTempValue.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
-		currentTempValue.setBounds(20, 20, 59, 29);
+		currentTempValue.setBounds(8, 20, 59, 29);
 		currentPanel.add(currentTempValue);
 		
 		JLabel lblF = new JLabel("°F");
@@ -64,36 +59,36 @@ public class SwingWeatherMain {
 		currentWindLabel.setBounds(96, 6, 70, 15);
 		currentPanel.add(currentWindLabel);
 		
-		currentWindSpeedValue = new JLabel("60");
-		currentWindSpeedValue.setBounds(125, 6, 70, 15);
+		currentWindSpeedValue = new JLabel("60", SwingConstants.RIGHT);
+		currentWindSpeedValue.setBounds(65, 6, 70, 15);
 		currentPanel.add(currentWindSpeedValue);
 		
 		currentWindUnits = new JLabel("MPH");
-		currentWindUnits.setBounds(147, 6, 70, 15);
+		currentWindUnits.setBounds(180, 6, 70, 15);
 		currentPanel.add(currentWindUnits);
 		
 		JLabel currentHumidyLabel = new JLabel("H");
 		currentHumidyLabel.setBounds(96 , 20, 70, 15);
 		currentPanel.add(currentHumidyLabel);
 		
-		currentHumdityValue = new JLabel("42");
-		currentHumdityValue.setBounds(125, 20, 70, 15);
+		currentHumdityValue = new JLabel("42.0", SwingConstants.RIGHT);
+		currentHumdityValue.setBounds(75, 20, 70, 15);
 		currentPanel.add(currentHumdityValue);
 		
 		JLabel currentHumidtyLabel = new JLabel("%");
-		currentHumidtyLabel.setBounds(147, 21, 70, 15);
+		currentHumidtyLabel.setBounds(155, 21, 70, 15);
 		currentPanel.add(currentHumidtyLabel);
 		
 		JLabel currentPressureLabel = new JLabel("P");
 		currentPressureLabel.setBounds(96, 33, 70, 15);
 		currentPanel.add(currentPressureLabel);
 		
-		currentPressureValue = new JLabel("29.92");
-		currentPressureValue.setBounds(125, 31, 70, 15);
+		currentPressureValue = new JLabel("29.92", SwingConstants.RIGHT);
+		currentPressureValue.setBounds(95, 31, 70, 15);
 		currentPanel.add(currentPressureValue);
 		
 		JLabel currentPressureUnit = new JLabel("mb");
-		currentPressureUnit.setBounds(168, 31, 70, 15);
+		currentPressureUnit.setBounds(175, 31, 70, 15);
 		currentPanel.add(currentPressureUnit);
 		
 		currentObservation = new JLabel("Clouds: few clouds");
