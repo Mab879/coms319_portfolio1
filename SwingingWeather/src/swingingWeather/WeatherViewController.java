@@ -47,11 +47,11 @@ public class WeatherViewController {
 		weatherDataList = WP.getData();
 
 		WeatherData weatherDay = weatherDataList.get(0);
-		myWeatherWindow.setCurrentHumdityValue(String.valueOf(weatherDay.getHumidity()));
+		myWeatherWindow.setCurrentHumdityValue(String.valueOf(Math.round(weatherDay.getHumidity())));
 		myWeatherWindow.setCurrentObservation(String.valueOf(weatherDay.getDescription()));
-		myWeatherWindow.setCurrentPressureValue(String.valueOf(weatherDay.getPressure()));
+		myWeatherWindow.setCurrentPressureValue(String.valueOf(Math.round(weatherDay.getPressure())));
 		myWeatherWindow.setCurrentTempValue(String.valueOf(Math.round(weatherDay.getCurrentTemp())));
-		myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(weatherDay.getWindSpeed()));
+		myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(Math.round(weatherDay.getWindSpeed())));
 		
 		//Binds the forecast Data to the forecast Panels
 				for(int i=1; i<=myWeatherWindow.getForecastDays()+1; i++){
