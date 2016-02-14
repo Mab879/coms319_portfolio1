@@ -1,105 +1,237 @@
 package swingingWeather;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class WeatherData {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private String country;
 	private String zipCode;
-	private HashMap<String,Object> rawData;
-	private HashMap<String,Object> currentData;
-	private HashMap<String,Object> forecastData;
-	private ArrayList<HashMap<String, Object>> data;
-	private Network myNetwork;
+	private double sunrise;
+	private double sunset;
+	private double currentTemp;
+	private double minTemp;
+	private double maxTemp;
+	private double cloudCover;
+	private String description;
+	private double pressure;
+	private double windSpeed;
+	private double windAngle;
+	private String name;
+	private double humidity;
 	
-	public static void main(String[] args) {
-		new WeatherData("50111");
-	}
 	
-	public WeatherData(String zip)
-	{
+	
+	public WeatherData(String zip){
 		this.zipCode = zip;
-		myNetwork = new Network(zip);
-		currentData =  new HashMap<String,Object>();
-		update();
-	}
-	
-	public HashMap<String,Object> getData(){
-		return this.currentData;
 	}
 	
 	/**
-	 * Requests Data from the OpenWeather API, then updates the current data and forecastData
+	 * @return the country
 	 */
-	@SuppressWarnings("unchecked")
-	public void update(){
-		try {
-			 this.rawData = (HashMap<String, Object>)myNetwork.requestData();
-			 getCurrentData();
-			 getForecastData();
-		}
-		catch (MalformedURLException e) {
-			System.out.println("Url is inncorrect.");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("Could not read stream.");
-			e.printStackTrace();
-		}
-		
-		
+	public String getCountry() {
+		return country;
 	}
-	
-	public void setZip(String zip){
-		this.zipCode = zip;
+
+	/**
+	 * @param country the country to set
+	 */
+	public void setCountry(String country) {
+		this.country = country;
 	}
-	
-	public String getZip(){
+
+	/**
+	 * @return the sunrise
+	 */
+	public double getSunrise() {
+		return sunrise;
+	}
+
+	/**
+	 * @param sunsrise the sunrise to set
+	 */
+	public void setSunrise(double sunrise) {
+		this.sunrise = sunrise;
+	}
+
+	/**
+	 * @return the sunset
+	 */
+	public double getSunset() {
+		return sunset;
+	}
+
+	/**
+	 * @param sunset the sunset to set
+	 */
+	public void setSunset(double sunset) {
+		this.sunset = sunset;
+	}
+
+	/**
+	 * @return the currentTemp
+	 */
+	public double getCurrentTemp() {
+		return currentTemp;
+	}
+
+	/**
+	 * @param d the currentTemp to set
+	 */
+	public void setCurrentTemp(double d) {
+		this.currentTemp = d;
+	}
+
+	/**
+	 * @return the minTemp
+	 */
+	public double getMinTemp() {
+		return minTemp;
+	}
+
+	/**
+	 * @param minTemp the  to set
+	 */
+	public void setMinTemp(double minTemp) {
+		this.minTemp = minTemp;
+	}
+
+	/**
+	 * @return the maxTemp
+	 */
+	public double getMaxTemp() {
+		return maxTemp;
+	}
+
+	/**
+	 * @param maxTemp the maxTemp to set
+	 */
+	public void setMaxTemp(double maxTemp) {
+		this.maxTemp = maxTemp;
+	}
+
+	/**
+	 * @return the cloudCover
+	 */
+	public double getCloudCover() {
+		return cloudCover;
+	}
+
+	/**
+	 * @param cloudCover the cloudCover to set
+	 */
+	public void setCloudCover(double cloudCover) {
+		this.cloudCover = cloudCover;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * @return the pressure
+	 */
+	public double getPressure() {
+		return pressure;
+	}
+
+	/**
+	 * @param pressure the pressure to set
+	 */
+	public void setPressure(double pressure) {
+		this.pressure = pressure;
+	}
+
+	/**
+	 * @return the windSpeed
+	 */
+	public double getWindSpeed() {
+		return windSpeed;
+	}
+
+	/**
+	 * @param windSpeed the windSpeed to set
+	 */
+	public void setWindSpeed(double windSpeed) {
+		this.windSpeed = windSpeed;
+	}
+
+	/**
+	 * @return the windAngle
+	 */
+	public double getWindAngle() {
+		return windAngle;
+	}
+
+	/**
+	 * @param windAngle the windAngle to set
+	 */
+	public void setWindAngle(double windAngle) {
+		this.windAngle = windAngle;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the humidity
+	 */
+	public double getHumidity() {
+		return humidity;
+	}
+
+	/**
+	 * @param humidity the humidity to set
+	 */
+	public void setHumidity(double humidity) {
+		this.humidity = humidity;
+	}
+
+	/**
+	 * @return the zipCode
+	 */
+	public String getZipCode() {
 		return zipCode;
 	}
-	
-	@SuppressWarnings("unchecked")
-	private void getCurrentData()
-	{
 
-		HashMap<String,Object> tempMap = (HashMap<String, Object>) rawData.get("main");
-				
-		currentData.put("currentTemp", tempMap.get("temp"));
-		currentData.put("pressure", tempMap.get("pressure"));
-		currentData.put("humidity", tempMap.get("humidity"));
-		currentData.put("minTemp", tempMap.get("temp_min"));
-		currentData.put("maxTemp", tempMap.get("temp_max"));
-		
-		tempMap = (HashMap<String, Object>) rawData.get("wind");
-		currentData.put("windSpeed", tempMap.get("speed"));
-		currentData.put("windDeg", tempMap.get("deg"));
-		
-		tempMap = (HashMap<String, Object>) rawData.get("clouds");
-		
-		currentData.put("cloudCover", tempMap.get("all"));
-		
-		ArrayList<Object> obj = (ArrayList<Object>)rawData.get("weather");
-		tempMap = (HashMap<String, Object>) obj.get(0);
-		
-		currentData.put("description", tempMap.get("description"));
-		
-		tempMap = (HashMap<String, Object>) rawData.get("sys");
-		currentData.put("country", tempMap.get("country"));
-		currentData.put("sunrise", tempMap.get("sunrise"));
-		currentData.put("sunset", tempMap.get("sunset"));
-		currentData.put("name", rawData.get("name"));
-		
-		System.out.println(this.getData());
-		
+	/**
+	 * @param zipCode the zipCode to set
+	 */
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "WeatherData [country=" + country + ", zipCode=" + zipCode
+				+ ", sunrise=" + sunrise + ", sunset=" + sunset
+				+ ", currentTemp=" + currentTemp + ", minTemp=" + minTemp
+				+ ", maxTemp=" + maxTemp + ", cloudCover=" + cloudCover
+				+ ", description=" + description + ", pressure=" + pressure
+				+ ", windSpeed=" + windSpeed + ", windAngle=" + windAngle
+				+ ", name=" + name + ", humidity=" + humidity + "]";
 	}
 	
-	private void getForecastData(){
-		
-		
-	}
+	
 	
 }
