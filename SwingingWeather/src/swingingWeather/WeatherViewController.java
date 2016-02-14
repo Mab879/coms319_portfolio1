@@ -51,7 +51,6 @@ public class WeatherViewController {
 		myWeatherWindow.setCurrentObservation(String.valueOf(weatherDay.getDescription()));
 		myWeatherWindow.setCurrentPressureValue(String.valueOf(weatherDay.getPressure()));
 		myWeatherWindow.setCurrentTempValue(String.valueOf(Math.round(weatherDay.getCurrentTemp())));
-		//myWeatherWindow.setCurrentWindLabel(String.valueOf(weatherDay.getWindAngle()));
 		myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(weatherDay.getWindSpeed()));
 		
 		//This will be used to bind the forecast data
