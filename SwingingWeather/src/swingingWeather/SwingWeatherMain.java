@@ -16,7 +16,7 @@ public class SwingWeatherMain {
 	private JButton btnGo;
 	private ForecastPanel[] forecasts;
 	private TrendChart chart = new TrendChart();
-
+	private final int forecastDays = 5;
 	/**
 	 * Create the application.
 	 */
@@ -137,7 +137,7 @@ public class SwingWeatherMain {
 		JPanel panel = new JPanel();
 		scrollPane.setViewportView(panel);
 		
-		forecasts = new ForecastPanel[6];
+		forecasts = new ForecastPanel[forecastDays+1];
 		for(int i = 0; i < forecasts.length; i++) {
 			forecasts[i] = new ForecastPanel("Day " + i);
 			forecasts[i].setSize(110, 110);
@@ -219,11 +219,16 @@ public class SwingWeatherMain {
 		chart.addLow(low);
 	}
 
-//	/**
-//	 * @param forecasts the forecasts to set
-//	 */
-//	public void setForecasts(WeatherData[] forecasts) {
-//		this.forecasts = forecasts;
-//	}
+	public void setForecasts(String low, String high, String description, int index) {
+		//forecasts[index].setTitle(title);
+		forecasts[index-1].setHigh(high);
+		forecasts[index-1].setLow(low);
+		forecasts[index-1].setDescription(description);
+	}
+	
+	public int getForecastDays(){
+		return forecastDays;
+	}
+
 	
 }

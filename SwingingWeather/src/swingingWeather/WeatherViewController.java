@@ -53,12 +53,17 @@ public class WeatherViewController {
 		myWeatherWindow.setCurrentTempValue(String.valueOf(Math.round(weatherDay.getCurrentTemp())));
 		myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(weatherDay.getWindSpeed()));
 		
-		//This will be used to bind the forecast data
-//		for(int i=0; i<weatherDataList.size(); i++){
-//			WeatherData weatherDay = weatherDataList.get(i);
-//			
-//			
-//		}
+		//Binds the forecast Data to the forecast Panels
+				for(int i=1; i<=myWeatherWindow.getForecastDays()+1; i++){
+					weatherDay = weatherDataList.get(i);
+					myWeatherWindow.setForecasts(	
+							String.valueOf(weatherDay.getMinTemp()), 
+							String.valueOf(weatherDay.getMaxTemp()),
+							String.valueOf(weatherDay.getDescription()), 
+							i
+					);		
+				}
+
 	}
 
 	

@@ -78,8 +78,9 @@ public class ForecastPanel extends JPanel {
 		lblLow.setText(low);
 	}
 	
-	public void lblDescription(String desc) {
+	public void setDescription(String desc) {
 		lblDescription.setText(desc);
 	}
+	
 
 }
