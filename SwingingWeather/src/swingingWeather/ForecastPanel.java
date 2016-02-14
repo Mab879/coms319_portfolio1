@@ -21,7 +21,7 @@ public class ForecastPanel extends JPanel {
 	
 	private JLabel lblLow;
 	
-	private JLabel lblLowtValue;
+	private JLabel lblLowValue;
 	
 	private JLabel lblDescription;
 	private JLabel label;
@@ -55,8 +55,8 @@ public class ForecastPanel extends JPanel {
 		lblLow.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		add(lblLow);
 		
-		lblLowtValue = new JLabel("104 ºF");
-		add(lblLowtValue);
+		lblLowValue = new JLabel("104 ºF");
+		add(lblLowValue);
 		
 		label_2 = new JLabel("");
 		add(label_2);
@@ -71,11 +71,11 @@ public class ForecastPanel extends JPanel {
 	}
 	
 	public void setHigh(String high) {
-		lblHigh.setText(high);
+		lblHighValue.setText(high);
 	}
 	
 	public void setLow(String low) {
-		lblLow.setText(low);
+		lblLowValue.setText(low);
 	}
 	
 	public void setDescription(String desc) {
