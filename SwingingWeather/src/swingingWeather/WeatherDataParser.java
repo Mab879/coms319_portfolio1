@@ -23,8 +23,6 @@ public class WeatherDataParser {
 		new WeatherDataParser("50011");
 	}
 	
-
-	
 	
 	public WeatherDataParser(String zip)
 	{
@@ -36,12 +34,12 @@ public class WeatherDataParser {
 		rawData = myNetwork.requestData();
 		parsedData = new ArrayList<WeatherData>();
 		
-		
-		
-		//parseCurrentWeatherData();
-		parseForecastData();
-		
-		
+		parseCurrentWeatherData();
+		parseForecastData();	
+	}
+	
+	public ArrayList<WeatherData> getData(){
+		return parsedData;
 	}
 	
 	private void parseCurrentWeatherData()
@@ -88,37 +86,39 @@ public class WeatherDataParser {
 	}
 	
 	private void parseForecastData(){
+
 		for (int i=0; i<daysRequested; i++){
+				
+			HashMap<String, Object> currentData = (HashMap<String, Object>) rawData.get(1);
+	
+			daysRequested = ((Number) currentData.get("cnt")).intValue();
+			ArrayList<Object> forecastData = (ArrayList<Object>) currentData.get("list");
 			
-		HashMap<String, Object> currentData = (HashMap<String, Object>) rawData.get(1);
-
-		daysRequested = ((Number) currentData.get("cnt")).intValue();
-		ArrayList<Object> forecastData = (ArrayList<Object>) currentData.get("list");
-		
-		HashMap<String, Object> dayData = (HashMap<String, Object>) forecastData.get(i);
-		
-		HashMap<String, Number> tempMap = (HashMap<String, Number>) dayData.get("temp");
-		
-		WeatherData weatherData = new WeatherData(zipCode);
-		
-		weatherData.setMinTemp(tempMap.get("min").doubleValue());
-		weatherData.setMaxTemp(tempMap.get("max").doubleValue());
-		weatherData.setPressure(( (Number) dayData.get("pressure")).doubleValue());
-		weatherData.setHumidity(( (Number) dayData.get("humidity")).doubleValue());
-		weatherData.setWindSpeed(( (Number) dayData.get("speed")).doubleValue());
-		weatherData.setWindAngle(( (Number) dayData.get("deg")).doubleValue());
-		weatherData.setCloudCover(( (Number) dayData.get("clouds")).doubleValue());
-		
-		HashMap<String, String> tempMapString = (HashMap<String, String>) ((ArrayList<Object>) dayData.get("weather")).get(0);
-
-		
-		weatherData.setDescription(tempMapString.get("main"));
-		
-		System.out.println(weatherData);
-
-		parsedData.add(weatherData);
+			HashMap<String, Object> dayData = (HashMap<String, Object>) forecastData.get(i);
+			
+			HashMap<String, Number> tempMap = (HashMap<String, Number>) dayData.get("temp");
+			
+			WeatherData weatherData = new WeatherData(zipCode);
+			
+			weatherData.setMinTemp(tempMap.get("min").doubleValue());
+			weatherData.setMaxTemp(tempMap.get("max").doubleValue());
+			weatherData.setPressure(( (Number) dayData.get("pressure")).doubleValue());
+			weatherData.setHumidity(( (Number) dayData.get("humidity")).doubleValue());
+			weatherData.setWindSpeed(( (Number) dayData.get("speed")).doubleValue());
+			weatherData.setWindAngle(( (Number) dayData.get("deg")).doubleValue());
+			weatherData.setCloudCover(( (Number) dayData.get("clouds")).doubleValue());
+			
+			HashMap<String, String> tempMapString = (HashMap<String, String>) ((ArrayList<Object>) dayData.get("weather")).get(0);
+	
+			
+			weatherData.setDescription(tempMapString.get("main"));
+			
+			System.out.println(weatherData);
+	
+			parsedData.add(weatherData);
 		
 		}
 	}
+
 }
 	

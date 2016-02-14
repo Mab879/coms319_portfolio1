@@ -5,20 +5,24 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javafx.embed.swing.JFXPanel;
-import javafx.application.Platform;
+//import javafx.embed.swing.JFXPanel;
+//import javafx.application.Platform;
 
 public class SwingWeatherMain {
 
 	private JFrame frame;
 	private JTextField zipCodeField;
-
+	private JLabel currentTempValue,currentWindLabel,currentWindSpeedValue,currentWindUnits,
+	currentHumdityValue,currentPressureValue,currentObservation;
+	private JButton btnGo;
+	private ForecastPanel[] forecasts;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -42,8 +46,9 @@ public class SwingWeatherMain {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @return 
 	 */
-	private void initialize() {
+	public void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 640, 495);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,7 +60,7 @@ public class SwingWeatherMain {
 		frame.getContentPane().add(currentPanel);
 		currentPanel.setLayout(null);
 		
-		JLabel currentTempValue = new JLabel("104");
+		currentTempValue = new JLabel("104");
 		currentTempValue.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
 		currentTempValue.setBounds(20, 20, 59, 29);
 		currentPanel.add(currentTempValue);
@@ -68,15 +73,15 @@ public class SwingWeatherMain {
 		lblNewLabel.setBounds(20, 6, 115, 15);
 		currentPanel.add(lblNewLabel);
 		
-		JLabel currentWindLabel = new JLabel("W");
+		currentWindLabel = new JLabel("W");
 		currentWindLabel.setBounds(96, 6, 70, 15);
 		currentPanel.add(currentWindLabel);
 		
-		JLabel currentWindSpeedValue = new JLabel("60");
+		currentWindSpeedValue = new JLabel("60");
 		currentWindSpeedValue.setBounds(125, 6, 70, 15);
 		currentPanel.add(currentWindSpeedValue);
 		
-		JLabel currentWindUnits = new JLabel("MPH");
+		currentWindUnits = new JLabel("MPH");
 		currentWindUnits.setBounds(147, 6, 70, 15);
 		currentPanel.add(currentWindUnits);
 		
@@ -84,7 +89,7 @@ public class SwingWeatherMain {
 		currentHumidyLabel.setBounds(96, 20, 70, 15);
 		currentPanel.add(currentHumidyLabel);
 		
-		JLabel currentHumdityValue = new JLabel("42");
+		currentHumdityValue = new JLabel("42");
 		currentHumdityValue.setBounds(125, 20, 70, 15);
 		currentPanel.add(currentHumdityValue);
 		
@@ -96,7 +101,7 @@ public class SwingWeatherMain {
 		currentPressureLabel.setBounds(96, 33, 70, 15);
 		currentPanel.add(currentPressureLabel);
 		
-		JLabel currentPressureValue = new JLabel("29.92");
+		currentPressureValue = new JLabel("29.92");
 		currentPressureValue.setBounds(125, 31, 70, 15);
 		currentPanel.add(currentPressureValue);
 		
@@ -104,7 +109,7 @@ public class SwingWeatherMain {
 		currentPressureUnit.setBounds(168, 31, 70, 15);
 		currentPanel.add(currentPressureUnit);
 		
-		JLabel currentObservation = new JLabel("Clouds: few clouds");
+		currentObservation = new JLabel("Clouds: few clouds");
 		currentObservation.setBounds(20, 48, 176, 15);
 		currentPanel.add(currentObservation);
 		
@@ -117,13 +122,8 @@ public class SwingWeatherMain {
 		frame.getContentPane().add(zipCodeField);
 		zipCodeField.setColumns(5);
 		
-		JButton btnGo = new JButton("GO");
-		btnGo.addActionListener(e -> {
-			String zipPattern = "\\d\\d\\d\\d\\d";
-			if (!Pattern.matches(zipPattern, zipCodeField.getText())) {
-				JOptionPane.showMessageDialog(null, "Invalid zip code.", "Error", JOptionPane.ERROR_MESSAGE);		
-			}
-		});
+		btnGo = new JButton("GO");
+		
 		
 		btnGo.setBounds(213, 442, 70, 25);
 		frame.getContentPane().add(btnGo);
@@ -132,15 +132,15 @@ public class SwingWeatherMain {
 		trendsWrapper.setBounds(308, 21, 311, 182);
 		frame.getContentPane().add(trendsWrapper);
 
-		JFXPanel jfxPanel = new JFXPanel();
-		trendsWrapper.add(jfxPanel);
-
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				TrendChart.initFX(jfxPanel);
-			}
-		});
+//		JFXPanel jfxPanel = new JFXPanel();
+//		trendsWrapper.add(jfxPanel);
+//
+//		Platform.runLater(new Runnable() {
+//			@Override
+//			public void run() {
+//				TrendChart.initFX(jfxPanel);
+//			}
+//		});
 		
 		JLabel lblTrends = new JLabel("Trends");
 		lblTrends.setBounds(308, 6, 70, 15);
@@ -157,12 +157,77 @@ public class SwingWeatherMain {
 		JPanel panel = new JPanel();
 		scrollPane.setViewportView(panel);
 		
-		ForecastPanel[] forecasts = new ForecastPanel[6];
+		forecasts = new ForecastPanel[6];
 		for(int i = 0; i < forecasts.length; i++) {
 			forecasts[i] = new ForecastPanel("Day " + i);
 			forecasts[i].setSize(110, 110);
 			forecasts[i].setVisible(true);
 			panel.add(forecasts[i]);
 		}
+		
+		 frame.setVisible(true);
+		 
 	}
+	
+
+	
+	public JButton getGoButton(){
+		return btnGo;
+	}
+	
+	public String getZipCode(){
+		return zipCodeField.getText();
+	}
+
+	/**
+	 * @param currentTempValue the currentTempValue to set
+	 */
+	public void setCurrentTempValue(String currentTempValue) {
+		this.currentTempValue.setText(currentTempValue);
+	}
+
+	/**
+	 * @param currentWindLabel the currentWindLabel to set
+	 */
+	public void setCurrentWindLabel(String currentWindLabel) {
+		this.currentWindLabel.setText(currentWindLabel);
+	}
+
+	/**
+	 * @param currentWindSpeedValue the currentWindSpeedValue to set
+	 */
+	public void setCurrentWindSpeedValue(String currentWindSpeedValue) {
+		this.currentWindSpeedValue.setText(currentWindSpeedValue);
+	}
+
+	
+
+	/**
+	 * @param d the currentHumdityValue to set
+	 */
+	public void setCurrentHumdityValue(String d) {
+		this.currentHumdityValue.setText(d);
+	}
+
+	/**
+	 * @param currentPressureValue the currentPressureValue to set
+	 */
+	public void setCurrentPressureValue(String currentPressureValue) {
+		this.currentPressureValue.setText(currentPressureValue);
+	}
+
+	/**
+	 * @param currentObservation the currentObservation to set
+	 */
+	public void setCurrentObservation(String currentObservation) {
+		this.currentObservation.setText(currentObservation);
+	}
+
+//	/**
+//	 * @param forecasts the forecasts to set
+//	 */
+//	public void setForecasts(WeatherData[] forecasts) {
+//		this.forecasts = forecasts;
+//	}
+	
 }
