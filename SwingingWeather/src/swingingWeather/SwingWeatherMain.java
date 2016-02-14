@@ -220,7 +220,6 @@ public class SwingWeatherMain {
 	}
 
 	public void setForecasts(String low, String high, String description, int index) {
-		//forecasts[index].setTitle(title);
 		forecasts[index-1].setHigh(high);
 		forecasts[index-1].setLow(low);
 		forecasts[index-1].setDescription(description);
