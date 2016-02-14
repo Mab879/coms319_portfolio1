@@ -5,8 +5,6 @@ import javax.swing.JLabel;
 import java.awt.GridLayout;
 import java.awt.Font;
 import java.awt.Color;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
 public class ForecastPanel extends JPanel {

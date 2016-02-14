@@ -31,7 +31,6 @@ public class TrendChart {
      * @return
      */
     private Scene geteScene() {
-        Group root = new Group();
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
         LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
