@@ -27,25 +27,25 @@ public class WeatherViewController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-			
+
 			if(window != null){
 				new WeatherViewController (window,window.getGoButton());
 			}
-			
+
         });
-	
+
 	}
-	
+
 	public WeatherViewController(SwingWeatherMain main, JButton btn){
 		myWeatherWindow = main;
 		goButton = btn;
 		goButton.addActionListener(new GoButtonActionListener());
-		
+
 	}
-	
+
 	private void bindData(WeatherDataParser WP){
 		weatherDataList = WP.getData();
-		
+
 		WeatherData weatherDay = weatherDataList.get(0);
 		myWeatherWindow.setCurrentHumdityValue(String.valueOf(weatherDay.getHumidity()));
 		myWeatherWindow.setCurrentObservation(String.valueOf(weatherDay.getDescription()));
@@ -63,28 +63,27 @@ public class WeatherViewController {
 							i
 					);		
 				}
-
 	}
 
-	
+
 	class GoButtonActionListener implements ActionListener{
 
-	
+
 		public GoButtonActionListener(){
-			
+
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 			String zipPattern = "\\d\\d\\d\\d\\d";
 			if (!Pattern.matches(zipPattern, myWeatherWindow.getZipCode())) {
-				JOptionPane.showMessageDialog(null, "Invalid zip code.", "Error", JOptionPane.ERROR_MESSAGE);	
+				JOptionPane.showMessageDialog(null, "Invalid zip code.", "Error", JOptionPane.ERROR_MESSAGE);
 			}else{
 				myZipCode =  myWeatherWindow.getZipCode();
 			}
-			
-			
+
+
 			EventQueue.invokeLater(() -> {
 	            try {
 	            	 weatherParser = new WeatherDataParser(myZipCode);
@@ -93,14 +92,10 @@ public class WeatherViewController {
 	            	exception.printStackTrace();
 	            }
 	        });
-			
+
 		}
-		
-		
+
+
 	}
 
 }
-
-
-
-
