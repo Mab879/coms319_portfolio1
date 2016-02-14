@@ -15,7 +15,7 @@ public class SwingWeatherMain {
 	currentHumdityValue,currentPressureValue,currentObservation;
 	private JButton btnGo;
 	private ForecastPanel[] forecasts;
-	private TrendChart chart = new TrendChart();
+	public TrendChart chart = new TrendChart();
 	private final int forecastDays = 5;
 	/**
 	 * Create the application.

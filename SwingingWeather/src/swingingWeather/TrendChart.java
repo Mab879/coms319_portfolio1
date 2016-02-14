@@ -70,5 +70,10 @@ public class TrendChart {
         currentLow++;
     }
 
+    public void clearChart() {
+        highSeries = new XYChart.Series();
+        lowSeries = new XYChart.Series();
+    }
+
 
 }
