@@ -13,8 +13,8 @@ import javafx.scene.chart.XYChart;
 public class TrendChart {
     private XYChart.Series highSeries;
     private XYChart.Series lowSeries;
-    private int currentHigh;
-    private  int currentLow;
+    private int currentHigh=0;
+    private  int currentLow=0;
 
     /**
      *
@@ -23,7 +23,7 @@ public class TrendChart {
         highSeries = new XYChart.Series();
         lowSeries = new XYChart.Series();
         highSeries.setName("High");
-        lowSeries.setName("Law");
+        lowSeries.setName("Low");
     }
 
     /**
@@ -66,7 +66,7 @@ public class TrendChart {
      * @param high
      */
     public void addLow(double high) {
-        lowSeries.getData().add(new XYChart.Data(currentHigh, high));
+        lowSeries.getData().add(new XYChart.Data(currentLow, high));
         currentLow++;
     }
 

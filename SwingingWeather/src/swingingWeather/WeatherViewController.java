@@ -61,7 +61,10 @@ public class WeatherViewController {
 							String.valueOf(weatherDay.getMaxTemp()),
 							String.valueOf(weatherDay.getDescription()), 
 							i
-					);		
+					);
+					myWeatherWindow.addHighToChart(weatherDay.getMaxTemp());
+					myWeatherWindow.addLowToChart(weatherDay.getMinTemp());
+
 				}
 	}
 
