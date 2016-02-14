@@ -1,7 +1,5 @@
 package swingingWeather;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -68,7 +66,7 @@ public class WeatherDataParser {
 		ArrayList<Object> obj = (ArrayList<Object>)currentData.get("weather");
 		HashMap<String, String> tempMapString = (HashMap<String, String>) obj.get(0);
 		
-		weatherData.setDescription((String) tempMapString.get("description"));
+		weatherData.setDescription(tempMapString.get("description"));
 		
 		tempMap = (HashMap<String, Number>) currentData.get("sys");
 		tempMapString = (HashMap<String, String>) currentData.get("sys");
