@@ -15,14 +15,16 @@ public class WeatherData {
 	private HashMap<String,Object> currentData;
 	private HashMap<String,Object> forecastData;
 	private ArrayList<HashMap<String, Object>> data;
+	private Network myNetwork;
 	
 	public static void main(String[] args) {
-		WeatherData d = new WeatherData("50111");
+		new WeatherData("50111");
 	}
 	
 	public WeatherData(String zip)
 	{
 		this.zipCode = zip;
+		myNetwork = new Network(zip);
 		currentData =  new HashMap<String,Object>();
 		update();
 	}
@@ -34,11 +36,12 @@ public class WeatherData {
 	/**
 	 * Requests Data from the OpenWeather API, then updates the current data and forecastData
 	 */
+	@SuppressWarnings("unchecked")
 	public void update(){
 		try {
-			 this.rawData = (HashMap)Network.requestData(zipCode);
+			 this.rawData = (HashMap<String, Object>)myNetwork.requestData();
 			 getCurrentData();
-			getForeCastData();
+			 getForecastData();
 		}
 		catch (MalformedURLException e) {
 			System.out.println("Url is inncorrect.");
@@ -59,6 +62,7 @@ public class WeatherData {
 		return zipCode;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void getCurrentData()
 	{
 
@@ -93,7 +97,7 @@ public class WeatherData {
 		
 	}
 	
-	private void getForeCastData(){
+	private void getForecastData(){
 		
 		
 	}

@@ -23,27 +23,28 @@ import org.json.simple.parser.ParseException;
 public class Network {
 	private static String url = "http://api.openweathermap.org/data/2.5/weather";
 	private static final String APIKEY = "ffddac062b6064aeee4aefc5662be9b8";
+	private String zipCode;
+	private String myCountryCode = "us";
+	private String units = "imperial";
+	private String encodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8"; 
 	
-
+	public Network(String myZipcode){
+		this.zipCode = myZipcode.trim();
+	}
 	
-	public static Object requestData(String zipCode) throws MalformedURLException, IOException{
-		String myZipCode = zipCode.trim();
-		String myCountryCode = "us";
-		String units = "imperial";
-		String encodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8";
+	public Object requestData() throws MalformedURLException, IOException{
 		
-		if(myZipCode.length()!= 5 ){
+		if(zipCode.length()!= 5 ){
 			throw new IllegalArgumentException("ZipCode is invalid length");
 		}
 		try{
-			Integer.parseInt(myZipCode);
+			Integer.parseInt(zipCode);
 		}catch(Exception e){
 			throw new IllegalArgumentException("Zip code is not a number");
 		}
 		
-		//Encode query 
 		String query = String.format("q=zip=%s,%s&units=%s&appid=%s", 
-			     URLEncoder.encode(myZipCode, encodingType), 
+			     URLEncoder.encode(zipCode, encodingType), 
 			     URLEncoder.encode(myCountryCode, encodingType),
 			     URLEncoder.encode(units, encodingType),
 			     URLEncoder.encode(APIKEY, encodingType));
