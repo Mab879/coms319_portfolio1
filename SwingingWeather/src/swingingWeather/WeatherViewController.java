@@ -58,7 +58,7 @@ public class WeatherViewController {
 		//myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(weatherDay.getWindSpeed()));
       
 
-		//myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(Math.round(weatherDay.getWindSpeed())));
+		myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(Math.round(weatherDay.getWindSpeed())));
 
 		
 
