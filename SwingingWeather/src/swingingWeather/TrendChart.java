@@ -13,6 +13,7 @@ import javafx.scene.chart.XYChart;
 public class TrendChart {
     private XYChart.Series highSeries;
     private XYChart.Series lowSeries;
+    private LineChart<Number, Number> lineChart;
     private int currentHigh=0;
     private  int currentLow=0;
 
@@ -30,10 +31,10 @@ public class TrendChart {
      *
      * @return
      */
-    private Scene geteScene() {
+    private Scene getScene() {
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
-        LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
+        this.lineChart = new LineChart<Number,Number>(xAxis,yAxis);
         xAxis.setLabel("Day");
         yAxis.setLabel("Temp");
         lineChart.setTitle("High and Lows for next 7 days");
@@ -48,7 +49,7 @@ public class TrendChart {
      * @param fxPanel
      */
     public void initFX(JFXPanel fxPanel) {
-        Scene scene = geteScene();
+        Scene scene = getScene();
         fxPanel.setScene(scene);
     }
 
@@ -71,9 +72,11 @@ public class TrendChart {
     }
 
     public void clearChart() {
-        highSeries = new XYChart.Series();
-        lowSeries = new XYChart.Series();
+    	 highSeries.getData().clear();
+    	 lowSeries.getData().clear();
+    	 currentLow = 0;
+    	 currentHigh = 0;
     }
-
+    
 
 }

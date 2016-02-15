@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javafx.application.Platform;
+
 import javax.swing.JButton;
 
 import java.util.ArrayList;
@@ -52,7 +54,9 @@ public class WeatherViewController {
 		myWeatherWindow.setCurrentPressureValue(String.valueOf(weatherDay.getPressure()));
 		myWeatherWindow.setCurrentTempValue(String.valueOf(Math.round(weatherDay.getCurrentTemp())));
 		myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(weatherDay.getWindSpeed()));
+      
 		
+
 		//Binds the forecast Data to the forecast Panels
 				for(int i=1; i<=myWeatherWindow.getForecastDays()+1; i++){
 					weatherDay = weatherDataList.get(i);
@@ -62,10 +66,24 @@ public class WeatherViewController {
 							String.valueOf(weatherDay.getDescription()), 
 							i
 					);
-					myWeatherWindow.addHighToChart(weatherDay.getMaxTemp());
-					myWeatherWindow.addLowToChart(weatherDay.getMinTemp());
-
+					
 				}
+				
+				Platform.runLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						myWeatherWindow.chart.clearChart();
+						
+						
+						for(int i=1; i<=myWeatherWindow.getForecastDays()+1; i++){
+							
+							WeatherData weatherDay = weatherDataList.get(i);
+							myWeatherWindow.addHighToChart(weatherDay.getMaxTemp());
+							myWeatherWindow.addLowToChart(weatherDay.getMinTemp());
+						}
+					}
+				});
 	}
 
 
@@ -86,11 +104,10 @@ public class WeatherViewController {
 				myZipCode =  myWeatherWindow.getZipCode();
 			}
 
-
+			
 			EventQueue.invokeLater(() -> {
 	            try {
 	            	 weatherParser = new WeatherDataParser(myZipCode);
-                     myWeatherWindow.chart.clearChart();
 	            	 bindData(weatherParser);
 	            } catch (Exception exception) {
 	            	exception.printStackTrace();

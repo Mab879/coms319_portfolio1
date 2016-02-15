@@ -22,6 +22,7 @@ public class SwingWeatherMain {
 	 */
 	public SwingWeatherMain() {
 		initialize();
+		
 	}
 
 	/**
