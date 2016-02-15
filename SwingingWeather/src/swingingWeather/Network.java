@@ -3,11 +3,15 @@
  */
 package swingingWeather;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import org.json.simple.*;
 import org.json.simple.parser.ParseException;
@@ -20,6 +24,8 @@ import org.json.simple.parser.ParseException;
  */
 public class Network {
 	private static String url = "http://api.openweathermap.org/data/2.5";
+	private static String imageString = "http://api.wunderground.com/api/c1c7ff74994b286d/radar/"; 
+	
 	
 	private static final String APIKEY = "ffddac062b6064aeee4aefc5662be9b8";
 	private ArrayList<JSONObject> dataList;
@@ -48,12 +54,44 @@ public class Network {
 		}
 		
 		requestCurrent();
-		requestForecast();		
-		
-	
-		
+		requestForecast();	
 		
 		return dataList;
+	}
+	
+	
+	//http://api.wunderground.com/api/c1c7ff74994b286d/radar/q/zip=49083&image.gif?&radius=150&width=500&height=500&newmaps=1frame=2
+	
+	public static Image [] requestRadar(String zip) throws IOException{
+		String myEncodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8"; 
+
+		String radius= "150";
+		String widthHeight="50";
+		int frame =1;
+		
+		
+		Image [] radarImage = new Image[6];
+		
+		for(int i=0; i<1; i++){
+		
+			try {
+				String query = String.format("q/%s.png?&radius=%s&width=%s&height=%s&newmaps=1&frame=%s", 
+					     URLEncoder.encode(zip, myEncodingType), 
+					     URLEncoder.encode(radius, myEncodingType),
+					     URLEncoder.encode(widthHeight, myEncodingType),
+					     URLEncoder.encode(widthHeight, myEncodingType),
+					     URLEncoder.encode(String.valueOf(frame), myEncodingType));
+						
+						 URL imageUrl = new URL(imageString+query);
+						radarImage[i] = ImageIO.read(imageUrl);
+						
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return radarImage;
 	}
 	
 	private void requestCurrent(){
@@ -118,6 +156,5 @@ public class Network {
 		}
 
 	}
-		
 
 }

@@ -1,6 +1,7 @@
 package swingingWeather;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -45,7 +46,7 @@ public class WeatherViewController {
 
 	}
 
-	private void bindData(WeatherDataParser WP){
+	private void bindData(WeatherDataParser WP, Image [] radarImages){
 		weatherDataList = WP.getData();
 
 		WeatherData weatherDay = weatherDataList.get(0);
@@ -112,7 +113,8 @@ public class WeatherViewController {
 			EventQueue.invokeLater(() -> {
 	            try {
 	            	 weatherParser = new WeatherDataParser(myZipCode);
-	            	 bindData(weatherParser);
+	            	 Image [] myRadarImages = Network.requestRadar(myZipCode);
+	            	 bindData(weatherParser, myRadarImages);
 	            } catch (Exception exception) {
 	            	exception.printStackTrace();
 	            }
