@@ -15,13 +15,11 @@ public class WeatherData {
 	private double windAngle;
 	private String name;
 	private double humidity;
-	
-	
-	
-	public WeatherData(String zip){
+
+	public WeatherData(String zip) {
 		this.zipCode = zip;
 	}
-	
+
 	/**
 	 * @return the country
 	 */
@@ -30,7 +28,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param country the country to set
+	 * @param country
+	 *            the country to set
 	 */
 	public void setCountry(String country) {
 		this.country = country;
@@ -44,7 +43,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param sunsrise the sunrise to set
+	 * @param sunsrise
+	 *            the sunrise to set
 	 */
 	public void setSunrise(double sunrise) {
 		this.sunrise = sunrise;
@@ -58,7 +58,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param sunset the sunset to set
+	 * @param sunset
+	 *            the sunset to set
 	 */
 	public void setSunset(double sunset) {
 		this.sunset = sunset;
@@ -72,7 +73,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param d the currentTemp to set
+	 * @param d
+	 *            the currentTemp to set
 	 */
 	public void setCurrentTemp(double d) {
 		this.currentTemp = d;
@@ -86,7 +88,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param minTemp the  to set
+	 * @param minTemp
+	 *            the to set
 	 */
 	public void setMinTemp(double minTemp) {
 		this.minTemp = minTemp;
@@ -100,7 +103,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param maxTemp the maxTemp to set
+	 * @param maxTemp
+	 *            the maxTemp to set
 	 */
 	public void setMaxTemp(double maxTemp) {
 		this.maxTemp = maxTemp;
@@ -114,7 +118,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param cloudCover the cloudCover to set
+	 * @param cloudCover
+	 *            the cloudCover to set
 	 */
 	public void setCloudCover(double cloudCover) {
 		this.cloudCover = cloudCover;
@@ -128,7 +133,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -142,7 +148,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param pressure the pressure to set
+	 * @param pressure
+	 *            the pressure to set
 	 */
 	public void setPressure(double pressure) {
 		this.pressure = pressure;
@@ -156,7 +163,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param windSpeed the windSpeed to set
+	 * @param windSpeed
+	 *            the windSpeed to set
 	 */
 	public void setWindSpeed(double windSpeed) {
 		this.windSpeed = windSpeed;
@@ -170,7 +178,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param windAngle the windAngle to set
+	 * @param windAngle
+	 *            the windAngle to set
 	 */
 	public void setWindAngle(double windAngle) {
 		this.windAngle = windAngle;
@@ -184,7 +193,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -198,7 +208,8 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param humidity the humidity to set
+	 * @param humidity
+	 *            the humidity to set
 	 */
 	public void setHumidity(double humidity) {
 		this.humidity = humidity;
@@ -212,26 +223,25 @@ public class WeatherData {
 	}
 
 	/**
-	 * @param zipCode the zipCode to set
+	 * @param zipCode
+	 *            the zipCode to set
 	 */
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "WeatherData [country=" + country + ", zipCode=" + zipCode
-				+ ", sunrise=" + sunrise + ", sunset=" + sunset
-				+ ", currentTemp=" + currentTemp + ", minTemp=" + minTemp
-				+ ", maxTemp=" + maxTemp + ", cloudCover=" + cloudCover
-				+ ", description=" + description + ", pressure=" + pressure
-				+ ", windSpeed=" + windSpeed + ", windAngle=" + windAngle
-				+ ", name=" + name + ", humidity=" + humidity + "]";
+		return "WeatherData [country=" + country + ", zipCode=" + zipCode + ", sunrise=" + sunrise + ", sunset="
+				+ sunset + ", currentTemp=" + currentTemp + ", minTemp=" + minTemp + ", maxTemp=" + maxTemp
+				+ ", cloudCover=" + cloudCover + ", description=" + description + ", pressure=" + pressure
+				+ ", windSpeed=" + windSpeed + ", windAngle=" + windAngle + ", name=" + name + ", humidity=" + humidity
+				+ "]";
 	}
-	
-	
-	
+
 }

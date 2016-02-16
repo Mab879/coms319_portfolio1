@@ -19,6 +19,8 @@ import org.json.simple.parser.ParseException;
 
 
 /**
+ * This class works with APIs
+ * 
  * @author David Garner
  *
  */
@@ -35,6 +37,10 @@ public class Network {
 	private String encodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8"; 
 	private String forecastDays;
 	
+	/**
+	 * Gets data for the given zipcode
+	 * @param myZipcode zipcode as a string
+	 */
 	public Network(String myZipcode){
 		this.zipCode = myZipcode.trim();
 		dataList = new ArrayList<JSONObject>();
@@ -42,6 +48,10 @@ public class Network {
 
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<JSONObject> requestData(){
 		
 		if(zipCode.length()!= 5 ){

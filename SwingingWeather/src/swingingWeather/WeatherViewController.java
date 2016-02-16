@@ -26,77 +26,63 @@ public class WeatherViewController {
 		EventQueue.invokeLater(() -> {
 			SwingWeatherMain window = null;
 			try {
-                window = new SwingWeatherMain();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-			if(window != null){
-				new WeatherViewController (window,window.getGoButton());
+				window = new SwingWeatherMain();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
-        });
+			if (window != null) {
+				new WeatherViewController(window, window.getGoButton());
+			}
+
+		});
 
 	}
 
-	public WeatherViewController(SwingWeatherMain main, JButton btn){
+	public WeatherViewController(SwingWeatherMain main, JButton btn) {
 		myWeatherWindow = main;
 		goButton = btn;
 		goButton.addActionListener(new GoButtonActionListener());
 
 	}
 
-	private void bindData(WeatherDataParser WP, Image [] radarImages){
+	private void bindData(WeatherDataParser WP, Image[] radarImages) {
 		weatherDataList = WP.getData();
 
+		// Set current weather
 		WeatherData weatherDay = weatherDataList.get(0);
 		myWeatherWindow.setCurrentHumdityValue(String.valueOf(Math.round(weatherDay.getHumidity())));
 		myWeatherWindow.setCurrentObservation(String.valueOf(weatherDay.getDescription()));
 		myWeatherWindow.setCurrentPressureValue(String.valueOf(Math.round(weatherDay.getPressure())));
 		myWeatherWindow.setCurrentTempValue(String.valueOf(Math.round(weatherDay.getCurrentTemp())));
+		myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(Math.round(weatherDay.getWindSpeed())));
 
-		//myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(weatherDay.getWindSpeed()));
-      
+		// Binds the forecast Data to the forecast Panels
+		for (int i = 1; i <= myWeatherWindow.getForecastDays() + 1; i++) {
+			weatherDay = weatherDataList.get(i);
+			myWeatherWindow.setForecasts(String.valueOf(weatherDay.getMinTemp()),
+					String.valueOf(weatherDay.getMaxTemp()), String.valueOf(weatherDay.getDescription()), i);
 
-		//myWeatherWindow.setCurrentWindSpeedValue(String.valueOf(Math.round(weatherDay.getWindSpeed())));
+		}
 
-		
+		Platform.runLater(new Runnable() {
 
-		//Binds the forecast Data to the forecast Panels
-				for(int i=1; i<=myWeatherWindow.getForecastDays()+1; i++){
-					weatherDay = weatherDataList.get(i);
-					myWeatherWindow.setForecasts(	
-							String.valueOf(weatherDay.getMinTemp()), 
-							String.valueOf(weatherDay.getMaxTemp()),
-							String.valueOf(weatherDay.getDescription()), 
-							i
-					);
-					
+			@Override
+			public void run() {
+				myWeatherWindow.chart.clearChart();
+
+				for (int i = 1; i <= myWeatherWindow.getForecastDays() + 1; i++) {
+
+					WeatherData weatherDay = weatherDataList.get(i);
+					myWeatherWindow.addHighToChart(weatherDay.getMaxTemp());
+					myWeatherWindow.addLowToChart(weatherDay.getMinTemp());
 				}
-				
-				Platform.runLater(new Runnable() {
-					
-					@Override
-					public void run() {
-						myWeatherWindow.chart.clearChart();
-						
-						
-						for(int i=1; i<=myWeatherWindow.getForecastDays()+1; i++){
-							
-							WeatherData weatherDay = weatherDataList.get(i);
-							myWeatherWindow.addHighToChart(weatherDay.getMaxTemp());
-							myWeatherWindow.addLowToChart(weatherDay.getMinTemp());
-						}
-					}
-				});
+			}
+		});
 	}
 
-
-	class GoButtonActionListener implements ActionListener{
-
-
-		public GoButtonActionListener(){
-
+	class GoButtonActionListener implements ActionListener {
+		public GoButtonActionListener() {
 		}
 
 		@Override
@@ -105,12 +91,12 @@ public class WeatherViewController {
 			String zipPattern = "\\d\\d\\d\\d\\d";
 			if (!Pattern.matches(zipPattern, myWeatherWindow.getZipCode())) {
 				JOptionPane.showMessageDialog(null, "Invalid zip code.", "Error", JOptionPane.ERROR_MESSAGE);
-			}else{
-				myZipCode =  myWeatherWindow.getZipCode();
+			} else {
+				myZipCode = myWeatherWindow.getZipCode();
 			}
 
-			
 			EventQueue.invokeLater(() -> {
+
 	            try {
 	            	 weatherParser = new WeatherDataParser(myZipCode);
 	            	 //Image [] myRadarImages = Network.requestRadar(Integer.valueOf(myZipCode));
@@ -120,9 +106,7 @@ public class WeatherViewController {
 	            }
 	        });
 
+
 		}
-
-
 	}
-
 }
