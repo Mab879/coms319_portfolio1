@@ -113,8 +113,8 @@ public class WeatherViewController {
 			EventQueue.invokeLater(() -> {
 	            try {
 	            	 weatherParser = new WeatherDataParser(myZipCode);
-	            	 Image [] myRadarImages = Network.requestRadar(myZipCode);
-	            	 bindData(weatherParser, myRadarImages);
+	            	 //Image [] myRadarImages = Network.requestRadar(Integer.valueOf(myZipCode));
+	            	// bindData(weatherParser, myRadarImages);
 	            } catch (Exception exception) {
 	            	exception.printStackTrace();
 	            }

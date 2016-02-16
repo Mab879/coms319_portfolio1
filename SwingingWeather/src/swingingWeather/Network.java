@@ -62,34 +62,38 @@ public class Network {
 	
 	//http://api.wunderground.com/api/c1c7ff74994b286d/radar/q/zip=49083&image.gif?&radius=150&width=500&height=500&newmaps=1frame=2
 	
-	public static Image [] requestRadar(String zip) throws IOException{
+	public static Image requestRadar(int zip) throws IOException{
 		String myEncodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8"; 
-
+		String radarZip = String.valueOf(zip);
 		String radius= "150";
-		String widthHeight="50";
+		String widthHeight="250";
 		int frame =1;
 		
 		
-		Image [] radarImage = new Image[6];
+		//Image [] radarImage = new Image[6];
+		Image  radarImage = null;
+
 		
-		for(int i=0; i<1; i++){
+		//for(int i=0; i<1; i++){
 		
 			try {
 				String query = String.format("q/%s.png?&radius=%s&width=%s&height=%s&newmaps=1&frame=%s", 
-					     URLEncoder.encode(zip, myEncodingType), 
+					     URLEncoder.encode(radarZip, myEncodingType), 
 					     URLEncoder.encode(radius, myEncodingType),
 					     URLEncoder.encode(widthHeight, myEncodingType),
 					     URLEncoder.encode(widthHeight, myEncodingType),
 					     URLEncoder.encode(String.valueOf(frame), myEncodingType));
 						
 						 URL imageUrl = new URL(imageString+query);
-						radarImage[i] = ImageIO.read(imageUrl);
+					   //radarImage[i] = ImageIO.read(imageUrl);
+						radarImage = ImageIO.read(imageUrl);
+
 						
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		//}
 		
 		return radarImage;
 	}
