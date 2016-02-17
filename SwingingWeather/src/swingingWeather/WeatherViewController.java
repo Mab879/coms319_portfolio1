@@ -9,6 +9,7 @@ import javafx.application.Platform;
 
 import javax.swing.JButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
 
 public class WeatherViewController {
 	private JButton goButton;
+	private JButton pausePlayButton;
 	private String myZipCode;
 	private SwingWeatherMain myWeatherWindow;
 	private WeatherDataParser weatherParser;
@@ -32,17 +34,19 @@ public class WeatherViewController {
 			}
 
 			if (window != null) {
-				new WeatherViewController(window, window.getGoButton());
+				new WeatherViewController(window, window.getGoButton(), window.getPausePlayButton());
 			}
 
 		});
 
 	}
 
-	public WeatherViewController(SwingWeatherMain main, JButton btn) {
+	public WeatherViewController(SwingWeatherMain main, JButton goBtn, JButton radarBtn) {
 		myWeatherWindow = main;
-		goButton = btn;
-		goButton.addActionListener(new GoButtonActionListener());
+		goButton = goBtn;
+		goButton.addActionListener(new ButtonListener());
+		pausePlayButton = radarBtn;
+		pausePlayButton.addActionListener(new ButtonListener());
 
 	}
 
@@ -83,48 +87,69 @@ public class WeatherViewController {
 		
 	}
 	
-	private void bindRadarData(Image[] radarImages) {
+	private void bindRadarData(Image[] radarImages){
 		myWeatherWindow.setRadarImages(radarImages);
 		myWeatherWindow.drawRadar();
 	}
 
 
-	class GoButtonActionListener implements ActionListener {
-		public GoButtonActionListener() {
-		}
+	class ButtonListener implements ActionListener {
+		public ButtonListener() {}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+		
+			System.out.println(e.getSource());
+			
+			if(e.getSource() == goButton){
+				String zipPattern = "\\d\\d\\d\\d\\d";
+				if (!Pattern.matches(zipPattern, myWeatherWindow.getZipCode())) {
+					JOptionPane.showMessageDialog(null, "Invalid zip code.", "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					myZipCode = myWeatherWindow.getZipCode();
+					//myWeatherWindow.getRadarPanel().stopLoop();
 
-			String zipPattern = "\\d\\d\\d\\d\\d";
-			if (!Pattern.matches(zipPattern, myWeatherWindow.getZipCode())) {
-				JOptionPane.showMessageDialog(null, "Invalid zip code.", "Error", JOptionPane.ERROR_MESSAGE);
-			} else {
-				myZipCode = myWeatherWindow.getZipCode();
+				}
+	
+				EventQueue.invokeLater(() -> {
+	
+		            try {
+		            	 weatherParser = new WeatherDataParser(myZipCode);
+		            	 bindData(weatherParser); 
+		            } catch (Exception exception) {
+		            	exception.printStackTrace();
+		            }
+		        });
+				
+				 RadarThread rt = new RadarThread();
+	        	 rt.start();
 			}
-
-			EventQueue.invokeLater(() -> {
-
-	            try {
-	            	 weatherParser = new WeatherDataParser(myZipCode);
-	            	 bindData(weatherParser); 
-	            } catch (Exception exception) {
-	            	exception.printStackTrace();
-	            }
-	        });
-			
-			
-			EventQueue.invokeLater(() -> {
-
-	            try {
-	            	 Image [] myRadarImages = Network.requestRadar(Integer.valueOf(myZipCode));
-	            	 bindRadarData(myRadarImages);
-	            } catch (Exception exception) {
-	            	exception.printStackTrace();
-	            }
-	        });
-
-
+			else if (e.getSource() == pausePlayButton){
+				myWeatherWindow.getRadarPanel().toggleLoop();
+				myWeatherWindow.toggleRadarButtonText();
+			}
 		}
+	}
+
+
+	class RadarThread extends Thread {
+		
+		RadarThread(){
+		}
+	
+	    public void run() {
+	    	Image[] myRadarImages =null;
+			try {
+				myRadarImages = Network.requestRadar(Integer.valueOf(myZipCode));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	bindRadarData(myRadarImages);
+	
+	    }
 	}
 }

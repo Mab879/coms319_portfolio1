@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javafx.concurrent.Task;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,65 +18,63 @@ public class ImagePanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private Image [] myImage;
-	private int X;
-	private int Y;
-	
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		
-		ImagePanel IP=null; 
-				//Image[] image= new Image[6];
-		try {
-			IP = new ImagePanel(Network.requestRadar(49083));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-		frame.setLayout(new BorderLayout());
-		int size = 700;
-		frame.setSize(size,size);
+	private int myIiterator;
+	private Timer radarTimer;
+	private long interval = 300;
+	private TimerTask loopRadar;
+	private boolean isTimerRunning;
 
-		frame.setVisible(true);
-		frame.add(IP);
-
-		
-			IP.draw(frame.getGraphics());
-		
-		
-	//ImagePanel IP = new ImagePanel(image[0]);
-		//ImagePanel IP2 = new ImagePanel(image[1]);
-		//frame.add(IP);
-		///frame.add(IP2);
-
-		
-		
-		
-
-	}
 	public ImagePanel(){
-		
 		this.myImage = null; 
-		this.X = 0;
-	}
-	
-	public ImagePanel(Image [] initial){
-		
-		this.myImage = initial; 
-		this.X = 0;
+		this.radarTimer = new Timer();
+		isTimerRunning = true;
 	}
 	
 	
 	public void draw(Graphics g){
-		//for(int i=0; i<myImage.length; i++){
-			g.drawImage(myImage[0],this.getX(),this.getY(),null);
-			
-		//}
+		int myY = this.getY();
+		int myX = this.getX();
+		myIiterator = myImage.length-1;
+		
+		loopRadar = new TimerTask() {
+			@Override
+			public void run() {
+				if(isTimerRunning){
+					g.drawImage(myImage[myIiterator],myX,myY+70,null);
+					if(myIiterator > 1)
+						myIiterator--;
+					else
+						myIiterator = myImage.length-1;
+				}
+			}
+	     };
+		
+	     this.radarTimer.scheduleAtFixedRate(loopRadar, 0, interval); 
 
 	}
 	
 	public void setImages(Image [] image){
 		this.myImage = image;
 		
+	}
+	
+	public void toggleLoop(){
+		if(isTimerRunning)
+			stopLoop();
+		else
+			startLoop();
+	}
+	public void stopLoop(){
+
+		if(isTimerRunning){
+			isTimerRunning = false;
+		}
+	}
+	public void startLoop(){
+		isTimerRunning = true;
+	}
+	
+	public void setLoopSpeed(Long newInterval){
+		this.interval=newInterval;
 	}
 }

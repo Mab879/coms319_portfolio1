@@ -36,6 +36,11 @@ public class SwingWeatherMain {
 	private JButton btnGo;
 	
 	/**
+	 * Button to pause on play the radar
+	 */
+	private JButton radarButton;
+	
+	/**
 	 * An array of the forecast panels for the forecast section
 	 */
 	private ForecastPanel[] forecasts;
@@ -180,10 +185,16 @@ public class SwingWeatherMain {
 
 		
 	    radarPanel = new ImagePanel();
-		radarPanel.setBounds(20, 200, 311, 182);
+		radarPanel.setBounds(20, 130, 311, 400);
 		radarPanel.setVisible(true);
-		frame.getContentPane().add(radarPanel);
+
+		radarButton = new JButton("Pause");
 		
+		radarButton.setLocation(0, 0);
+		radarButton.setVisible(true);
+		radarPanel.add(radarButton);
+		frame.getContentPane().add(radarPanel);
+
 		frame.setVisible(true);
 
 
@@ -195,6 +206,10 @@ public class SwingWeatherMain {
 	 */
 	public JButton getGoButton() {
 		return btnGo;
+	}
+	
+	public JButton getPausePlayButton(){
+		return radarButton;
 	}
 
 	public String getZipCode() {
@@ -291,6 +306,17 @@ public class SwingWeatherMain {
 	}
 	public void drawRadar(){
 		this.radarPanel.draw(frame.getGraphics());
+	}
+	
+	public ImagePanel getRadarPanel(){
+		return this.radarPanel;
+	}
+	
+	public void toggleRadarButtonText(){
+		if(this.radarButton.getText() == "Pause"){
+			this.radarButton.setText("Play");
+		}else
+			this.radarButton.setText("Pause");
 	}
 
 }
