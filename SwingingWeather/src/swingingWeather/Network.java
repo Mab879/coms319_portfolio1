@@ -71,7 +71,6 @@ public class Network {
 	}
 	
 	
-	//http://api.wunderground.com/api/c1c7ff74994b286d/radar/q/zip=49083&image.gif?&radius=150&width=500&height=500&newmaps=1frame=2
 	
 	public static Image [] requestRadar(int zip) throws IOException{
 		String myEncodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8"; 
