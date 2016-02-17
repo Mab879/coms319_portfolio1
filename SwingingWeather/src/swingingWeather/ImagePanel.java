@@ -1,5 +1,6 @@
 package swingingWeather;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -12,41 +13,65 @@ public class ImagePanel extends JPanel {
 	
 	
 	private static final long serialVersionUID = 1L;
-	private Image myImage;
+	private Image [] myImage;
+	private int X;
+	private int Y;
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		
-		Image image =  null;
+		ImagePanel IP=null; 
+				//Image[] image= new Image[6];
 		try {
-			image = Network.requestRadar(49083);
+			IP = new ImagePanel(Network.requestRadar(49083));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		ImagePanel IP = new ImagePanel(image);
-		frame.add(IP);
-		 frame.setSize(400,400);
+		 
+		frame.setLayout(new BorderLayout());
+		int size = 700;
+		frame.setSize(size,size);
 
 		frame.setVisible(true);
+		frame.add(IP);
+
 		
-		IP.draw(frame.getGraphics());
+			IP.draw(frame.getGraphics());
+		
+		
+	//ImagePanel IP = new ImagePanel(image[0]);
+		//ImagePanel IP2 = new ImagePanel(image[1]);
+		//frame.add(IP);
+		///frame.add(IP2);
+
+		
+		
+		
 
 	}
+	public ImagePanel(){
+		
+		this.myImage = null; 
+		this.X = 0;
+	}
 	
-	
-	public ImagePanel(Image initial){
+	public ImagePanel(Image [] initial){
 		
 		this.myImage = initial; 
+		this.X = 0;
 	}
 	
+	
 	public void draw(Graphics g){
-		g.drawImage(myImage, 0,0,null);
+		//for(int i=0; i<myImage.length; i++){
+			g.drawImage(myImage[0],this.getX(),this.getY(),null);
+			
+		//}
 
 	}
 	
-	public void setImage(Image image){
+	public void setImages(Image [] image){
 		this.myImage = image;
 		
 	}

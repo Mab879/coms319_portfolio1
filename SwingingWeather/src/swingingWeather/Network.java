@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -72,7 +73,7 @@ public class Network {
 	
 	//http://api.wunderground.com/api/c1c7ff74994b286d/radar/q/zip=49083&image.gif?&radius=150&width=500&height=500&newmaps=1frame=2
 	
-	public static Image requestRadar(int zip) throws IOException{
+	public static Image [] requestRadar(int zip) throws IOException{
 		String myEncodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8"; 
 		String radarZip = String.valueOf(zip);
 		String radius= "150";
@@ -80,11 +81,11 @@ public class Network {
 		int frame =1;
 		
 		
-		//Image [] radarImage = new Image[6];
-		Image  radarImage = null;
+		Image [] radarImage = new Image[6];
+		//Image  radarImage = null;
 
 		
-		//for(int i=0; i<1; i++){
+		for(int i=0; i<6; i++){
 		
 			try {
 				String query = String.format("q/%s.png?&radius=%s&width=%s&height=%s&newmaps=1&frame=%s", 
@@ -95,16 +96,17 @@ public class Network {
 					     URLEncoder.encode(String.valueOf(frame), myEncodingType));
 						
 						 URL imageUrl = new URL(imageString+query);
-					   //radarImage[i] = ImageIO.read(imageUrl);
-						radarImage = ImageIO.read(imageUrl);
-
-						
+					   radarImage[i] = ImageIO.read(imageUrl);
+						//radarImage = ImageIO.read(imageUrl);
+					   frame++;
+					   
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		//}
-		
+
+		}
+		System.out.println(Arrays.toString(radarImage));
 		return radarImage;
 	}
 	

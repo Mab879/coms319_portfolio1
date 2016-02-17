@@ -3,6 +3,7 @@ package swingingWeather;
 import javax.swing.*;
 
 import java.awt.Font;
+import java.awt.Image;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.application.Platform;
@@ -44,6 +45,11 @@ public class SwingWeatherMain {
 	 */
 	public TrendChart chart = new TrendChart();
 	private final int forecastDays = 5;
+	
+	/**
+	 * The panel to display radar images
+	 */
+	private ImagePanel radarPanel;
 
 	/**
 	 * Create the application window
@@ -172,7 +178,14 @@ public class SwingWeatherMain {
 			panel.add(forecasts[i]);
 		}
 
+		
+	    radarPanel = new ImagePanel();
+		radarPanel.setBounds(20, 200, 311, 182);
+		radarPanel.setVisible(true);
+		frame.getContentPane().add(radarPanel);
+		
 		frame.setVisible(true);
+
 
 	}
 
@@ -271,6 +284,13 @@ public class SwingWeatherMain {
 	 */
 	public int getForecastDays() {
 		return forecastDays;
+	}
+	
+	public void setRadarImages(Image [] images){
+		this.radarPanel.setImages(images);
+	}
+	public void drawRadar(){
+		this.radarPanel.draw(frame.getGraphics());
 	}
 
 }

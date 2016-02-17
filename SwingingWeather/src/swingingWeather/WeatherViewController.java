@@ -79,6 +79,12 @@ public class WeatherViewController {
 				}
 			}
 		});
+		EventQueue.invokeLater(() -> {
+			myWeatherWindow.setRadarImages(radarImages);
+			myWeatherWindow.drawRadar();
+		});
+		
+		
 	}
 
 	class GoButtonActionListener implements ActionListener {
@@ -99,8 +105,8 @@ public class WeatherViewController {
 
 	            try {
 	            	 weatherParser = new WeatherDataParser(myZipCode);
-	            	 //Image [] myRadarImages = Network.requestRadar(Integer.valueOf(myZipCode));
-	            	// bindData(weatherParser, myRadarImages);
+	            	 Image [] myRadarImages = Network.requestRadar(Integer.valueOf(myZipCode));
+	            	 bindData(weatherParser, myRadarImages);
 	            } catch (Exception exception) {
 	            	exception.printStackTrace();
 	            }
