@@ -46,7 +46,7 @@ public class WeatherViewController {
 
 	}
 
-	private void bindData(WeatherDataParser WP, Image[] radarImages) {
+	private void bindData(WeatherDataParser WP){
 		weatherDataList = WP.getData();
 
 		// Set current weather
@@ -79,13 +79,15 @@ public class WeatherViewController {
 				}
 			}
 		});
-		EventQueue.invokeLater(() -> {
-			myWeatherWindow.setRadarImages(radarImages);
-			myWeatherWindow.drawRadar();
-		});
-		
+
 		
 	}
+	
+	private void bindRadarData(Image[] radarImages) {
+		myWeatherWindow.setRadarImages(radarImages);
+		myWeatherWindow.drawRadar();
+	}
+
 
 	class GoButtonActionListener implements ActionListener {
 		public GoButtonActionListener() {
@@ -105,8 +107,18 @@ public class WeatherViewController {
 
 	            try {
 	            	 weatherParser = new WeatherDataParser(myZipCode);
+	            	 bindData(weatherParser); 
+	            } catch (Exception exception) {
+	            	exception.printStackTrace();
+	            }
+	        });
+			
+			
+			EventQueue.invokeLater(() -> {
+
+	            try {
 	            	 Image [] myRadarImages = Network.requestRadar(Integer.valueOf(myZipCode));
-	            	 bindData(weatherParser, myRadarImages);
+	            	 bindRadarData(myRadarImages);
 	            } catch (Exception exception) {
 	            	exception.printStackTrace();
 	            }
