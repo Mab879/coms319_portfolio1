@@ -9,7 +9,7 @@ import javax.swing.border.LineBorder;
 
 /**
  * 
- * This panel a forecast day
+ * Panel used to display each a given forecast day
  *
  */
 public class ForecastPanel extends JPanel {

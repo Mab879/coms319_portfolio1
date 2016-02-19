@@ -1,10 +1,7 @@
-/**
- * 
- */
+
 package swingingWeather;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -17,43 +14,44 @@ import javax.imageio.ImageIO;
 import org.json.simple.*;
 import org.json.simple.parser.ParseException;
 
-
-
 /**
- * This class works with APIs
- * 
+ *
+ * The Network class is responsible for making network request.
  * @author David Garner
  *
  */
 public class Network {
+	//URLS used to request data
 	private static String url = "http://api.openweathermap.org/data/2.5";
 	private static String imageString = "http://api.wunderground.com/api/c1c7ff74994b286d/radar/"; 
 	
 	
-	private static final String APIKEY = "ffddac062b6064aeee4aefc5662be9b8";
+	private static final String APIKEY_OPENWEATHER = "ffddac062b6064aeee4aefc5662be9b8";
 	private ArrayList<JSONObject> dataList;
 	private String zipCode;
 	private String myCountryCode = "us";
 	private String units = "imperial";
 	private String encodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8"; 
 	private String forecastDays;
+	private static long lastRadarRequest =-1;
 	
 	/**
 	 * Gets data for the given zipcode
-	 * @param myZipcode zipcode as a string
+	 * @param myZipcode zipcode with the data 
 	 */
 	public Network(String myZipcode){
 		this.zipCode = myZipcode.trim();
 		dataList = new ArrayList<JSONObject>();
-		forecastDays = "2";
-
+		forecastDays = "5";
 	}
 	
+	
 	/**
-	 * 
-	 * @return
+	 * Function that checks for valid zipcode and then calls the requestCurrent() and requestForeCast() methods
+	 * @return ArrayList<JSONObject> the current data and forecast data 
+	 * @throws IOException 
 	 */
-	public ArrayList<JSONObject> requestData(){
+	public ArrayList<JSONObject> requestData() throws IOException{
 		
 		if(zipCode.length()!= 5 ){
 			throw new IllegalArgumentException("ZipCode is invalid length");
@@ -70,9 +68,30 @@ public class Network {
 		return dataList;
 	}
 	
-	
-	
+	/**
+	 * Static method that returns an Array of Images to be displayed at the radar
+	 * @param zip
+	 * @return
+	 * @throws IOException
+	 */
 	public static Image [] requestRadar(int zip) throws IOException{
+		long changeInTime = 0;
+		if(lastRadarRequest==-1){
+			
+			changeInTime = 60000;
+		}else{
+			changeInTime = System.currentTimeMillis()-lastRadarRequest;
+		}
+		
+		//Check for over loaded request
+		if(changeInTime < 60000 ){
+			throw new IllegalStateException("Must Wait 1 minute to call network for radar Images");
+		}else{
+			lastRadarRequest = System.currentTimeMillis();
+
+			
+		
+		
 		String myEncodingType = java.nio.charset.StandardCharsets.UTF_8.name(); //"UTF-8"; 
 		String radarZip = String.valueOf(zip);
 		String radius= "150";
@@ -81,8 +100,6 @@ public class Network {
 		
 		
 		Image [] radarImage = new Image[6];
-		//Image  radarImage = null;
-
 		
 		for(int i=0; i<6; i++){
 		
@@ -94,10 +111,9 @@ public class Network {
 					     URLEncoder.encode(widthHeight, myEncodingType),
 					     URLEncoder.encode(String.valueOf(frame), myEncodingType));
 						
-						 URL imageUrl = new URL(imageString+query);
-					   radarImage[i] = ImageIO.read(imageUrl);
-						//radarImage = ImageIO.read(imageUrl);
-					   frame++;
+						URL imageUrl = new URL(imageString+query);
+						radarImage[i] = ImageIO.read(imageUrl);
+						frame++;
 					   
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
@@ -107,15 +123,20 @@ public class Network {
 		}
 		System.out.println(Arrays.toString(radarImage));
 		return radarImage;
+		}
 	}
 	
+
+	/**
+	 * Method that adds the current weather to the dataList
+	 */
 	private void requestCurrent(){
 		try {
 			String query = String.format("q=zip=%s,%s&units=%s&appid=%s", 
 				     URLEncoder.encode(zipCode, encodingType), 
 				     URLEncoder.encode(myCountryCode, encodingType),
 				     URLEncoder.encode(units, encodingType),
-				     URLEncoder.encode(APIKEY, encodingType));
+				     URLEncoder.encode(APIKEY_OPENWEATHER, encodingType));
 			
 			URLConnection myConnection = new URL(url + "/weather?" + query).openConnection();
 			myConnection.setRequestProperty("Accept-Charset", encodingType);
@@ -139,7 +160,11 @@ public class Network {
 
 	}
 	
-	private void requestForecast(){
+	/**
+	 * Method that adds the forecastData to the dataList
+	 * @throws IOException 
+	 */
+	private void requestForecast() throws IOException{
 		
 		try {
 			String query = String.format("q=zip=%s,%s&units=%s&%s&appid=%s", 
@@ -147,7 +172,7 @@ public class Network {
 				     URLEncoder.encode(myCountryCode, encodingType),
 				     URLEncoder.encode(units, encodingType),
 				     URLEncoder.encode(forecastDays, encodingType),
-				     URLEncoder.encode(APIKEY, encodingType));
+				     URLEncoder.encode(APIKEY_OPENWEATHER, encodingType));
 			
 			URLConnection myConnection = new URL(url + "/forecast/daily?" + query).openConnection();
 			myConnection.setRequestProperty("Accept-Charset", encodingType);
@@ -160,9 +185,6 @@ public class Network {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParseException e) {

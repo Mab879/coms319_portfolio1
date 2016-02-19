@@ -1,10 +1,18 @@
 package swingingWeather;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 
+/**
+ * 
+ * Class that serializes the JSON Data into Usable Weather Data Objects
+ * 
+ * @author David Garner
+ *
+ */
 public class WeatherDataParser {
 
 	private static final long serialVersionUID = 1L;
@@ -14,11 +22,8 @@ public class WeatherDataParser {
 	ArrayList<JSONObject> rawData;
 	private ArrayList<WeatherData> parsedData;
 
-	public static void main(String[] args) {
-		new WeatherDataParser("50011");
-	}
 
-	public WeatherDataParser(String zip) {
+	public WeatherDataParser(String zip) throws IOException {
 		this.zipCode = zip;
 		this.daysRequested = 1;
 
@@ -35,6 +40,12 @@ public class WeatherDataParser {
 		return parsedData;
 	}
 
+	/**
+	 * 
+	 * Takes data from the network request called in the constructor and parses through each 
+	 * JSON Object (For current Weather Data) saves the data in the ArrayList<WeaherData> parsedData 
+	 * 
+	 */
 	private void parseCurrentWeatherData() {
 		HashMap<String, Object> currentData = (HashMap<String, Object>) rawData.get(0);
 
@@ -76,6 +87,10 @@ public class WeatherDataParser {
 
 	}
 
+	/**
+	 * Parses the forecast data and saves the parsed data in the ArrayList<WeaherData> parsedData 
+	 * 
+	 */
 	private void parseForecastData() {
 
 		for (int i = 0; i < daysRequested; i++) {

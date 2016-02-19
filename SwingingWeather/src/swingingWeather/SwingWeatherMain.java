@@ -26,7 +26,7 @@ public class SwingWeatherMain {
 	 */
 	private JTextField zipCodeField;
 	/**
-	 * The many labels that data is displayd in
+	 * The many labels that data is displayed in
 	 */
 	private JLabel currentTempValue, currentWindLabel, currentWindSpeedValue, currentWindUnits, currentHumdityValue,
 			currentPressureValue, currentObservation;

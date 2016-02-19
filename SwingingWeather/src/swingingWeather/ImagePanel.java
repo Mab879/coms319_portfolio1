@@ -1,18 +1,17 @@
+
 package swingingWeather;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javafx.concurrent.Task;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * Panel that displays radar Images
+ *
+ */
 public class ImagePanel extends JPanel {
 	
 	
@@ -78,3 +77,9 @@ public class ImagePanel extends JPanel {
 		this.interval=newInterval;
 	}
 }
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+In order to Run the application make sure you add the "javafx/**" restriction to your build path. 
+To Do This:
+1. Right click on the project click build path->Configure Build Path
+2. Under the libraries tab there is a text pane, select JRE System Library->Access Rules
+3. Once access rules is selected, click the edit button on the right hand side
+4. Then in the pop-up window click add
+5. In the drop down menu Change Forbidden to Accessible and in the field put "javafx/**" (no quotes) then hit OK.
+6. You're all setup Now
+

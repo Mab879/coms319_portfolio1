@@ -15,6 +15,11 @@ import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Controller class to bind the data from the model to the view
+ * @author David Garner and  Matthew Burket
+ *
+ */
 public class WeatherViewController {
 	private JButton goButton;
 	private JButton pausePlayButton;
@@ -23,6 +28,10 @@ public class WeatherViewController {
 	private WeatherDataParser weatherParser;
 	private ArrayList<WeatherData> weatherDataList;
 
+	/**
+	 * Main method to run the program
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(() -> {
@@ -41,6 +50,11 @@ public class WeatherViewController {
 
 	}
 
+	/**
+	 * @param main weather frame and panels to display on the view
+	 * @param goBtn action button to load data to view
+	 * @param radarBtn button used to toggle radar animation
+	 */
 	public WeatherViewController(SwingWeatherMain main, JButton goBtn, JButton radarBtn) {
 		myWeatherWindow = main;
 		goButton = goBtn;
@@ -50,6 +64,10 @@ public class WeatherViewController {
 
 	}
 
+	/**
+	 * Method that binds all of the text based data to the view, except a Weather Parser object to source the data
+	 * @param WP WeatherParser object that contains data to bind to the view
+	 */
 	private void bindData(WeatherDataParser WP){
 		weatherDataList = WP.getData();
 
@@ -87,37 +105,48 @@ public class WeatherViewController {
 		
 	}
 	
+	/**
+	 * Binds the radar images to the View
+	 * @param radarImages array of Images to be used for the radar animation
+	 */
 	private void bindRadarData(Image[] radarImages){
-		myWeatherWindow.setRadarImages(radarImages);
-		myWeatherWindow.drawRadar();
+		if(radarImages != null){
+			myWeatherWindow.setRadarImages(radarImages);
+			myWeatherWindow.drawRadar();
+		}
 	}
 
 
+	/**
+	 * Action Listener that identifies which button is pressed and the performs that specified action
+	 *
+	 */
 	class ButtonListener implements ActionListener {
 		public ButtonListener() {}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		
-			System.out.println(e.getSource());
 			
+			//Checks for valid zipcode
 			if(e.getSource() == goButton){
 				String zipPattern = "\\d\\d\\d\\d\\d";
 				if (!Pattern.matches(zipPattern, myWeatherWindow.getZipCode())) {
 					JOptionPane.showMessageDialog(null, "Invalid zip code.", "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 					myZipCode = myWeatherWindow.getZipCode();
-					//myWeatherWindow.getRadarPanel().stopLoop();
-
 				}
 	
 				EventQueue.invokeLater(() -> {
 	
 		            try {
 		            	 weatherParser = new WeatherDataParser(myZipCode);
-		            	 bindData(weatherParser); 
-		            } catch (Exception exception) {
-		            	exception.printStackTrace();
+		            	 bindData(weatherParser);
+		            	 
+		            }catch (IOException ex){
+						JOptionPane.showMessageDialog(null,"Please try your request again later. We have developer tier API access with a limited number of request/min.", "Error", JOptionPane.ERROR_MESSAGE);
+		            }catch (Exception ex) {
+		            	//ex.printStackTrace();
 		            }
 		        });
 				
@@ -131,7 +160,12 @@ public class WeatherViewController {
 		}
 	}
 
-
+	
+	/**
+	 * Class used to display radae data on a seperate thread
+	 * @author David Garner
+	 *
+	 */
 	class RadarThread extends Thread {
 		
 		RadarThread(){
@@ -142,11 +176,12 @@ public class WeatherViewController {
 			try {
 				myRadarImages = Network.requestRadar(Integer.valueOf(myZipCode));
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
+			}catch(IllegalStateException e){
+				JOptionPane.showMessageDialog(null, e.getMessage() + ".", "Error", JOptionPane.ERROR_MESSAGE);
+
 			}
 	    	bindRadarData(myRadarImages);
 	

@@ -1,5 +1,12 @@
 package swingingWeather;
 
+/**
+ * 
+ * Simple calls to hold weather Data information, current or forecast
+ * 
+ * @author David Garner
+ *
+ */
 public class WeatherData {
 	private String country;
 	private String zipCode;
